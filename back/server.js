@@ -4,7 +4,7 @@ const port = process.env.PORT || 3000;
 const module1 = require("./module1")
 
 app.get('/api', async (req, res) => {
-    const text = await module1.indexScrapping("amazon");
+    const text = await module1.indexScrapping("cdiscount");
     res.json(text);
 });
 
