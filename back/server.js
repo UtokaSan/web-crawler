@@ -14,8 +14,9 @@ port: 5432,
 
 client.connect();
 
+
 app.get('/api', async (req, res) => {
-    const text = await crawlerSale.indexScrapping("cdiscount");
+    const text = await crawlerSale.indexScrapping("amazon", client);
     res.json(text)
 });
 
@@ -42,3 +43,6 @@ client.query(createTableQuery, (err, res) => {
         console.log('Table Produits créée avec succès.');
     }
 });
+
+// Exporte le client PostgreSQL
+module.exports = client;
