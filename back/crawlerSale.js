@@ -11,7 +11,7 @@ async function indexScrapping(url) {
         await page.click("#nav-search-submit-button");
         await page.waitForNavigation({waitUntil: 'load'});
         const amazon = await page.evaluate(takeAllLinkAmazon, "a.a-link-normal.s-underline-text.s-underline-link-text.s-link-style.a-text-normal")
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 5; i++) {
             await page.goto(amazon[i], {waitUntil: 'load'});
             const takepr = await page.evaluate(takeInformationAllProduct, "span.a-offscreen", "span#productTitle", "img[data-a-image-name='landingImage']");
             console.log(takepr);
