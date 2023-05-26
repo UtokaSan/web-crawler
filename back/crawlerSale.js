@@ -14,7 +14,11 @@ async function indexScrapping(url) {
         for (let i = 0; i < 5; i++) {
             await page.goto(amazon[i], {waitUntil: 'load'});
             const takepr = await page.evaluate(takeInformationAllProduct, "span.a-offscreen", "span#productTitle", "img[data-a-image-name='landingImage']");
-            console.log(takepr);
+            takepr.forEach(products => {
+                console.log("price :" + products.price);
+                console.log("titre :" + products.productTitle);
+                console.log("image :" + products.imageLink);
+            })
         }
     }
     if (url === "cdiscount") {
