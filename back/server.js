@@ -15,8 +15,8 @@ port: 5432,
 client.connect();
 
 
-app.get('/api', async (req, res) => {
-    const text = await crawlerSale.indexScrapping("amazon", client);
+app.get('/crawler/sale', async (req, res) => {
+    const text = await crawlerSale.indexCrawling(client);
     res.json(text)
 });
 
@@ -31,7 +31,7 @@ const createTableQuery = `
         Titre VARCHAR(255),
         Image VARCHAR(255),
         Prix VARCHAR(50),
-        Texte VARCHAR(500)
+        Texte VARCHAR(1000)
     )
 `;
 
