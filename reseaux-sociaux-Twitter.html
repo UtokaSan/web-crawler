@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gallery Landing Page Website using HTML, CSS and GSAP</title>
+    <link rel="stylesheet" href="/style/styles2.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/gsap.min.js"></script>
+</head>
+
+<body>
+<header>
+    <div class="img">
+        <img src="logo.svg" alt="" />
+    </div>
+    <div class="heading">ART GALLERY</div>
+    <div class="menu">
+        <img src="menu.svg" alt="" />
+    </div>
+</header>
+<div class="container">
+    <div class="inner-container inner-container-1">
+        <div class="inner-inner-container">
+            <div class="top-section">
+                <h1>
+                    Publier <br />
+                    un <br />
+                    tweet
+                </h1>
+            </div>
+            <div class="bottom-section">1</div>
+            <button id="page1-btn" class="invisible-button" onclick="window.open('page1.html', '_blank')"></button>
+        </div>
+    </div>
+    <div class="inner-container inner-container-2">
+        <div class="inner-inner-container">
+            <div class="top-section">
+                <h1>
+                    Recherche utilisateurs <br />
+                    est <br />
+                    follow/unfollow
+                </h1>
+            </div>
+            <div class="bottom-section">2</div>
+            <button id="page2-btn" class="invisible-button" onclick="window.open('page2.html', '_blank')"></button>
+        </div>
+    </div>
+    <div class="inner-container inner-container-3">
+        <div class="inner-inner-container">
+            <div class="top-section">
+                <h1>
+                    Aimer un/plusieurs tweets <br />
+                    ET/OU <br />
+                    retweeter
+                </h1>
+            </div>
+            <div class="bottom-section">3</div>
+            <button id="page3-btn" class="invisible-button" onclick="window.open('page3.html', '_blank')"></button>
+        </div>
+    </div>
+    <div class="inner-container inner-container-4">
+        <div class="inner-inner-container">
+            <div class="top-section">
+                <h1>
+                    Rechercher <br />
+                    et analyser <br />
+                    les tendances
+                </h1>
+            </div>
+            <div class="bottom-section">4</div>
+            <button id="page4-btn" class="invisible-button" onclick="window.open('page4.html', '_blank')"></button>
+        </div>
+    </div>
+    <div class="inner-container inner-container-5">
+        <div class="inner-inner-container">
+            <div class="top-section">
+                <h1>
+                    Suivre les abonnés <br />
+                    d'un <br />
+                    utilisateur influent
+                </h1>
+            </div>
+            <div class="bottom-section">5</div>
+        </div>
+    </div>
+    <div class="inner-container inner-container-6">
+        <div class="inner-inner-container">
+            <div class="top-section">
+                <h1>
+                    Rechercher par rapport <br />
+                    a certains critères <br />
+                    des personnes et les follows
+                </h1>
+            </div>
+            <div class="bottom-section">6</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.querySelector('.inner-container-1').addEventListener('click', function() {
+        document.getElementById('page1-btn').click();
+    });
+
+    document.querySelector('.inner-container-2').addEventListener('click', function() {
+        document.getElementById('page2-btn').click();
+    });
+
+    document.querySelector('.inner-container-3').addEventListener('click', function() {
+        document.getElementById('page3-btn').click();
+    });
+
+    document.querySelector('.inner-container-4').addEventListener('click', function() {
+        document.getElementById('page4-btn').click();
+    });
+</script>
+</body>
+
+</html>
