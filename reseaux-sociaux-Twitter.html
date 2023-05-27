@@ -12,13 +12,6 @@
 
 <body>
 <header>
-    <div class="img">
-        <img src="logo.svg" alt="" />
-    </div>
-    <div class="heading">ART GALLERY</div>
-    <div class="menu">
-        <img src="menu.svg" alt="" />
-    </div>
 </header>
 <div class="container">
     <div class="inner-container inner-container-1">
@@ -31,7 +24,7 @@
                 </h1>
             </div>
             <div class="bottom-section">1</div>
-            <button id="page1-btn" class="invisible-button" onclick="window.open('page1.html', '_blank')"></button>
+            <button id="page1-btn" class="invisible-button" onclick="window.open('Publier-un-tweet.html', '_blank')"></button>
         </div>
     </div>
     <div class="inner-container inner-container-2">
@@ -44,7 +37,7 @@
                 </h1>
             </div>
             <div class="bottom-section">2</div>
-            <button id="page2-btn" class="invisible-button" onclick="window.open('page2.html', '_blank')"></button>
+            <button id="page2-btn" class="invisible-button" onclick="window.open('Commenter-une-plusieurs-publication-avec-plusieurs-messages-ou-un-seul.html', '_blank')"></button>
         </div>
     </div>
     <div class="inner-container inner-container-3">
@@ -57,7 +50,7 @@
                 </h1>
             </div>
             <div class="bottom-section">3</div>
-            <button id="page3-btn" class="invisible-button" onclick="window.open('page3.html', '_blank')"></button>
+            <button id="page3-btn" class="invisible-button" onclick="window.open('Aimer-un-plusieurs-tweets-ET-OU-retweeter.html', '_blank')"></button>
         </div>
     </div>
     <div class="inner-container inner-container-4">
@@ -70,7 +63,7 @@
                 </h1>
             </div>
             <div class="bottom-section">4</div>
-            <button id="page4-btn" class="invisible-button" onclick="window.open('page4.html', '_blank')"></button>
+            <button id="page4-btn" class="invisible-button" onclick="window.open('Rechercher-et-analyser-les-tendances.html', '_blank')"></button>
         </div>
     </div>
     <div class="inner-container inner-container-5">
@@ -83,6 +76,8 @@
                 </h1>
             </div>
             <div class="bottom-section">5</div>
+            <button id="page5-btn" class="invisible-button" onclick="window.open('Aimer-un-plusieurs-tweets-ET-OU-retweeter.html', '_blank')"></button>
+        </div>
         </div>
     </div>
     <div class="inner-container inner-container-6">
@@ -95,10 +90,27 @@
                 </h1>
             </div>
             <div class="bottom-section">6</div>
+        <button id="page6-btn" class="invisible-button" onclick="window.open('Rechercher-et-analyser-les-tendances.html', '_blank')"></button>
         </div>
     </div>
 </div>
-
+<ul class="menu">
+    <li class="menu__item" data-id="1">
+        <a href="Publier-un-tweet.html" class="menu__link" target="_blank">Option 1</a>
+    </li>
+    <li class="menu__item" data-id="2">
+        <a href="Rechercher-des-utilisateurs-est-les-follow-unfollow.html" class="menu__link" target="_blank">Option 2</a>
+    </li>
+    <li class="menu__item" data-id="4">
+        <a href="Rechercher-par-rapport-a-certains-critères-des-personnes-et-les-follows.html" class="menu__link" target="_blank">Option 4</a>
+    </li>
+    <li class="menu__item" data-id="5">
+        <a href="Aimer-un-plusieurs-tweets-ET-OU-retweeter.html" class="menu__link" target="_blank">Option 5</a>
+    </li>
+    <li class="menu__item" data-id="6">
+        <a href="Rechercher-et-analyser-les-tendances.html" class="menu__link" target="_blank">Option 6</a>
+    </li>
+</ul>
 <script>
     document.querySelector('.inner-container-1').addEventListener('click', function() {
         document.getElementById('page1-btn').click();
@@ -114,6 +126,9 @@
 
     document.querySelector('.inner-container-4').addEventListener('click', function() {
         document.getElementById('page4-btn').click();
+    });
+    document.querySelector('.inner-container-5').addEventListener('click', function() {
+        document.getElementById('page5-btn').click();
     });
 </script>
 </body>

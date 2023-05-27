@@ -90,18 +90,3 @@ header .menu img {
     transition: color 0.8s cubic-bezier(0.23, 1, 0.32, 1);
     color: white;
 }
-.inner-container-1:hover {
-    background-image: url(1.jpg);
-}
-
-.inner-container-2:hover {
-    background-image: url(2.jpg);
-}
-
-.inner-container-3:hover {
-    background-image: url(3.jpg);
-}
-
-.inner-container-4:hover {
-    background-image: url(4.jpg);
-}

@@ -104,31 +104,6 @@ header .menu img {
     color: white;
 }
 
-.inner-container-1:hover {
-    background-image: url(1.jpg);
-}
-
-.inner-container-2:hover {
-    background-image: url(2.jpg);
-}
-
-.inner-container-3:hover {
-    background-image: url(3.jpg);
-}
-
-.inner-container-4:hover {
-    background-image: url(4.jpg);
-}
-
-.inner-container-5:hover {
-    background-image: url(5.jpg);
-}
-
-.inner-container-6:hover {
-    background-image: url(6.jpg);
-}
-
-/* Media Queries */
 @media (max-width: 768px) {
     header .img img {
         width: 30px;

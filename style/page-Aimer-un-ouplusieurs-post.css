@@ -1,0 +1,44 @@
+.container {
+    display: flex;
+    align-items: center;
+}
+
+.checkbox {
+    width: 20px;
+    height: 20px;
+    border: 1px solid black;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.checkbox.checked {
+    background-color: black;
+}
+
+.message {
+    margin-right: 10px;
+}
+
+.arrow {
+    font-size: 20px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.number-input {
+    width: 30px;
+    height: 30px;
+    border: 1px solid black;
+    margin-right: 10px;
+    padding: 5px;
+    text-align: center;
+}
+
+.btn {
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
