@@ -29,8 +29,14 @@ async function indexScrapping(url) {
         await page.type("input[type='search']", "Chemise");
         await page.keyboard.press("Enter");
         await page.waitForNavigation({waitUntil: 'networkidle2'});
-        const cdiscount = await page.evaluate(takeAllLinkAmazon, "a[value='Voir']");
-        console.log(cdiscount);
+
+        const voirButtons = await page.$$("input[value='Voir']");
+        for (const voirButton of voirButtons) {
+            await voirButton.click();
+            await page.waitForNavigation({waitUntil: 'networkidle2'});
+            await page.goBack();
+            await page.waitForNavigation({waitUntil: 'networkidle2'});
+        }
     }
 }
 async function takeAllLinkAmazon (selector) {
@@ -45,7 +51,6 @@ async function takeAllLinkAmazon (selector) {
     console.log('return', allproduct);
     return allproduct;
 }
-
 
 async function takeInformationAllProduct (selectorPrice, selectorProduct, selectorImage) {
     const products = [];
