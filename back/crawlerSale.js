@@ -1,6 +1,7 @@
 const puppeteer = require('puppeteer');
+const { Client } = require('pg');
 const {all} = require("express/lib/application");
-async function indexScrapping(url) {
+async function indexScrapping(url,client) {
     const browser = await puppeteer.launch({headless: false});
     const page = await browser.newPage();
     if (url === "amazon") {
@@ -52,17 +53,30 @@ async function takeAllLinkAmazon (selector) {
     return allproduct;
 }
 
-async function takeInformationAllProduct (selectorPrice, selectorProduct, selectorImage) {
-    const products = [];
+
+async function takeInformationAllProduct(selectorPrice, selectorProduct, selectorImage, client) {
     const price = document.querySelector(selectorPrice).innerText;
     const productTitle = document.querySelector(selectorProduct).innerText;
     const imageLink = document.querySelector(selectorImage).src;
-    products.push({
-        productTitle,
-        imageLink,
-        price
-    });
-    return products;
+
+    console.log('Price:' + price);
+    console.log('Product:' + productTitle);
+    console.log('Image:' + imageLink);
+
+    const insertQuery = `
+        INSERT INTO Produits (Titre, Image, Prix, Texte)
+        VALUES ($1, $2, $3, $4)
+        RETURNING Id
+    `;
+
+    const texte = "Description du produit";
+
+    try {
+        const res = await client.query(insertQuery, [productTitle, imageLink, price, texte]);
+        console.log('Nouvelle ligne insérée avec succès. ID généré:', res.rows[0].Id);
+    } catch (err) {
+        console.error('Erreur lors de l\'insertion d\'une nouvelle ligne:', err.message);
+    }
 }
 
 async function verifyCookie(page, selector) {
