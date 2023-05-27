@@ -14,6 +14,8 @@ port: 5432,
 
 client.connect();
 
+// Définit le répertoire statique
+app.use(express.static("public"));
 
 app.get('/api', async (req, res) => {
     const text = await crawlerSale.indexScrapping("amazon", client);
@@ -26,7 +28,7 @@ app.listen(port, () => {
 
 // Code SQL pour créer la table Produits
 const createTableQuery = `
-    CREATE TABLE Produits(
+    CREATE TABLE Produits(  
         Id SERIAL PRIMARY KEY,
         Titre VARCHAR(255),
         Image VARCHAR(255),
