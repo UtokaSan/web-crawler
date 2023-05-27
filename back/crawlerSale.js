@@ -14,12 +14,8 @@ async function indexScrapping(url,client) {
         const amazon = await page.evaluate(takeAllLinkAmazon, "a.a-link-normal.s-underline-text.s-underline-link-text.s-link-style.a-text-normal")
         for (let i = 0; i < 5; i++) {
             await page.goto(amazon[i], {waitUntil: 'load'});
-            const takepr = await page.evaluate(takeInformationAllProduct, "span.a-offscreen", "span#productTitle", "img[data-a-image-name='landingImage']");
-            takepr.forEach(products => {
-                console.log("price :" + products.price);
-                console.log("titre :" + products.productTitle);
-                console.log("image :" + products.imageLink);
-            })
+            const takeInfo = await page.evaluate(takeInformationAllProduct, "span.a-offscreen", "span#productTitle", "img[data-a-image-name='landingImage']");
+            await insertDB(takeInfo, client);
         }
     }
     if (url === "cdiscount") {
@@ -53,30 +49,34 @@ async function takeAllLinkAmazon (selector) {
     return allproduct;
 }
 
+async function insertDB (takeInfo, client) {
+    for (const product of takeInfo) {
+        const insertQuery = `
+            INSERT INTO Produits (Titre, Image, Prix, Texte)
+            VALUES ($1, $2, $3, $4)
+            RETURNING Id
+        `;
+        const texte = "Description du produit";
+        try {
+            const res = await client.query(insertQuery, [product.productTitle, product.imageLink, product.price, texte]);
+            console.log('Nouvelle ligne insérée avec succès. ID généré:', res.rows[0].Id);
+        } catch (err) {
+            console.error('Erreur lors de l\'insertion d\'une nouvelle ligne:', err.message);
+        }
+    }
+}
 
 async function takeInformationAllProduct(selectorPrice, selectorProduct, selectorImage, client) {
+    const products = [];
     const price = document.querySelector(selectorPrice).innerText;
     const productTitle = document.querySelector(selectorProduct).innerText;
     const imageLink = document.querySelector(selectorImage).src;
-
-    console.log('Price:' + price);
-    console.log('Product:' + productTitle);
-    console.log('Image:' + imageLink);
-
-    const insertQuery = `
-        INSERT INTO Produits (Titre, Image, Prix, Texte)
-        VALUES ($1, $2, $3, $4)
-        RETURNING Id
-    `;
-
-    const texte = "Description du produit";
-
-    try {
-        const res = await client.query(insertQuery, [productTitle, imageLink, price, texte]);
-        console.log('Nouvelle ligne insérée avec succès. ID généré:', res.rows[0].Id);
-    } catch (err) {
-        console.error('Erreur lors de l\'insertion d\'une nouvelle ligne:', err.message);
-    }
+    products.push({
+        productTitle,
+        imageLink,
+        price
+    });
+    return products;
 }
 
 async function verifyCookie(page, selector) {
