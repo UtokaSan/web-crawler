@@ -1,8 +1,11 @@
 const input = document.querySelector('.input');
 const btn = document.querySelector('.btn');
 
-btn.addEventListener('click', function() {
-    const username = input.value.trim();
+function handleFormSubmit(event) {
+    event.preventDefault(); // Empêche le rechargement de la page
+
+    const usernameInput = document.getElementById('usernameInput');
+    const username = usernameInput.value.trim();
 
     if (username === '') {
         console.log('Veuillez entrer un nom d\'utilisateur.');
@@ -13,6 +16,7 @@ btn.addEventListener('click', function() {
         username: username
     };
 
+    // Utilisation d'une requête AJAX pour envoyer les données au serveur
     const xhr = new XMLHttpRequest();
     xhr.open('POST', 'http://localhost:3000/crawler/sale');
     xhr.setRequestHeader('Content-Type', 'application/json');
@@ -27,4 +31,5 @@ btn.addEventListener('click', function() {
         console.error('Erreur lors de la requête.');
     };
     xhr.send(JSON.stringify(data));
-});
+}
+
