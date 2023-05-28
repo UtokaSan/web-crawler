@@ -17,7 +17,7 @@ port: 5432,
 client.connect();
 
 // Définit le répertoire statique
-app.use(express.static("/public"));
+app.use(express.static("public"));
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -27,8 +27,15 @@ app.post('/crawler/sale', async (req, res) => {
     res.redirect("/sites-de-vente.html");
 });
 
-app.get('/api/produits', (req, res) => {
-    const sql = 'SELECT * FROM produits';
+app.get('/api/produitsamazon', (req, res) => {
+   transformQueryJson('produitscdiscount');
+})
+app.get('/api/produitsamazon', (req, res) => {
+    transformQueryJson('produitsamazon');
+})
+
+function transformQueryJson (name) {
+    const sql = `SELECT * FROM ${name}`;
 
     client.query(sql, (err, result) => {
         if (err) {
@@ -38,15 +45,15 @@ app.get('/api/produits', (req, res) => {
             res.json(result.rows);
         }
     });
-})
+}
 
 app.listen(port, () => {
     console.log('Server app listening on port ' + port);
 });
 
 // Code SQL pour créer la table Produits
-const createTableQuery = `
-    CREATE TABLE Produits(  
+const createQueryTableAmazon = `
+    CREATE TABLE ProduitsAmazon(  
         Id SERIAL PRIMARY KEY,
         Titre VARCHAR(255),
         Image VARCHAR(255),
@@ -56,11 +63,29 @@ const createTableQuery = `
 `;
 
 // Exécute la requête SQL de création de table
-client.query(createTableQuery, (err, res) => {
+client.query(createQueryTableAmazon, (err, res) => {
     if (err) {
-        console.error('Erreur lors de la création de la table Produits:', err.message);
+        console.error('Erreur lors de la création de la table ProduitsAmazon:', err.message);
     } else {
-        console.log('Table Produits créée avec succès.');
+        console.log('Table ProduitsAmazon créée avec succès.');
+    }
+});
+
+const createQueryTableCDiscount = `
+    CREATE TABLE ProduitsCDiscount(  
+        Id SERIAL PRIMARY KEY,
+        Titre VARCHAR(255),
+        Image VARCHAR(255),
+        Prix VARCHAR(50),
+        Texte VARCHAR(1000)
+    )
+`;
+
+client.query(createQueryTableCDiscount, (err, res) => {
+    if (err) {
+        console.error('Erreur lors de la création de la table ProduitsCdiscount:', err.message);
+    } else {
+        console.log('Table ProduitsCDiscount créée avec succès.');
     }
 });
 
