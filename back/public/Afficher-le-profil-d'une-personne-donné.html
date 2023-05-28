@@ -14,8 +14,10 @@
 <body>
 <div class="container">
     <div class="form">
-        <input type="text" class="input" placeholder="Nom d'utilisateur">
-        <button class="btn">Valider</button>
+        <form method="POST"  onsubmit="handleFormSubmit(event)">
+            <input type="text" class="input" id="usernameInput" placeholder="Nom d'utilisateur">
+            <button type="submit" class="btn">Valider</button>
+        </form>
     </div>
 </div>
 
