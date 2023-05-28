@@ -2,12 +2,13 @@ const puppeteer = require('puppeteer');
 const {Client} = require('pg');
 const {all} = require("express/lib/application");
 
-async function indexCrawling(client) {
+async function indexCrawling(inputSearch, client) {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await deleteTableData("produits", client);
-    await runAmazon(page, client);
-    await runCDiscount(page, client)
+    const products = []
+    await runAmazon(page, client, inputSearch);
+    // await runCDiscount(page, client)
 }
 
 async function takeLinkDiscount() {
@@ -38,11 +39,11 @@ async function runCDiscount (page, client) {
     }
 }
 
-async function runAmazon(page, client) {
+async function runAmazon(page, client, inputSearch) {
     await page.goto('https://www.amazon.fr/', {waitUntil: 'networkidle2'});
     await verifyCookie(page, "#sp-cc-accept");
     await page.waitForSelector("input[aria-label='Rechercher Amazon.fr']");
-    await page.type("input[aria-label='Rechercher Amazon.fr']", 'Chemise');
+    await page.type("input[aria-label='Rechercher Amazon.fr']", inputSearch);
     await page.click("#nav-search-submit-button");
     await page.waitForNavigation({waitUntil: 'load'});
     const amazon = await page.evaluate(takeAllLinkAmazon, "a.a-link-normal.s-underline-text.s-underline-link-text.s-link-style.a-text-normal")
@@ -66,7 +67,7 @@ async function takeAllLinkAmazon(selector) {
     return allproduct;
 }
 
-async function insertDB(takeInfo, client) {
+async function insertDB(takeInfo, client, products) {
     for (const product of takeInfo) {
         const insertQuery = `
             INSERT INTO Produits (Titre, Image, Prix, Texte)

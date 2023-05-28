@@ -1,5 +1,7 @@
 const express = require("express");
 const crawlerSale = require("./crawlerSale")
+const cors = require('cors');
+const bodyParser = require('body-parser');
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -15,11 +17,14 @@ port: 5432,
 client.connect();
 
 // Définit le répertoire statique
-app.use(express.static("public"));
+app.use(express.static("/public"));
+app.use(cors());
+app.use(bodyParser.urlencoded({ extended: false }));
 
-app.get('/crawler/sale', async (req, res) => {
-    const text = await crawlerSale.indexCrawling(client);
-    res.json(text)
+app.post('/crawler/sale', async (req, res) => {
+    const inputSearch = req.body.inputSearch;
+    await crawlerSale.indexCrawling(inputSearch, client);
+    res.redirect("/sites-de-vente.html");
 });
 
 app.get('/api/produits', (req, res) => {

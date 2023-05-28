@@ -12,7 +12,13 @@
         <div class="search-icon">
             <i class="fa fa-search"></i>
         </div>
-        <input type="text" class="search-input" placeholder="Rechercher..." onkeydown="handleKeyPress(event)">
+        <form action="http://localhost:3000/crawler/sale" method="POST">
+            <input type="text" class="search-input" name="inputSearch" placeholder="Rechercher...">
+            <button type="submit">Envoyer</button>
+        </form>
+    </div>
+    <div id = "test">
+
     </div>
 </div>
 <div class="black-bar" id="blackBar"></div>
