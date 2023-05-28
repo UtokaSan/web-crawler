@@ -22,6 +22,19 @@ app.get('/crawler/sale', async (req, res) => {
     res.json(text)
 });
 
+app.get('/api/produits', (req, res) => {
+    const sql = 'SELECT * FROM produits';
+
+    client.query(sql, (err, result) => {
+        if (err) {
+            console.error(err);
+            res.status(500).json({ error: 'Erreur lors de la récupération des données' });
+        } else {
+            res.json(result.rows);
+        }
+    });
+})
+
 app.listen(port, () => {
     console.log('Server app listening on port ' + port);
 });
