@@ -15,17 +15,19 @@
 <body>
 <div class="container">
     <div class="person-container">
-        <input type="text" class="input" placeholder="Noms d'utilisateurs (séparés par des virgules)">
-        <div>
-            <label class="label">Follow</label>
-            <input type="radio" name="option" value="follow" checked>
-        </div>
-        <div>
-            <label class="label">Unfollow</label>
-            <input type="radio" name="option" value="unfollow">
-        </div>
+        <form id="myForm" action="http://localhost:3000/crawler/FollowInsta" method="POST">
+            <input type="text" class="input" name="usernameInput" placeholder="Noms d'utilisateurs (séparés par des virgules)">
+            <div>
+                <label class="label">Follow</label>
+                <input type="radio" name="option" value="follow" checked>
+            </div>
+            <div>
+                <label class="label">Unfollow</label>
+                <input type="radio" name="option" value="unfollow">
+            </div>
+            <button type="submit" class="btn">Valider</button>
+        </form>
     </div>
-    <button class="btn">Valider</button>
 </div>
 
 </body>

@@ -1,5 +1,8 @@
 const express = require("express");
 const crawlerSale = require("./crawlerSale")
+const FollowInsta = require("./FollowInsta")
+const CommentsInsta = require("./Comments")
+const DisplayProfil = require("./DisplayProfil")
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const app = express();
@@ -88,6 +91,31 @@ client.query(createQueryTableCDiscount, (err, res) => {
         console.log('Table ProduitsCDiscount créée avec succès.');
     }
 });
+
+
+app.post('/crawler/FollowInsta', async (req, res) => {
+    const usernameInput = req.body.usernameInput;
+    const optionRadioFollowUnfollow = req.body.option;
+    await FollowInsta.FollowFunction(usernameInput,optionRadioFollowUnfollow, client);
+    res.redirect("/Follow-Unfollow une-plusieurs-personnes-donnés.html");
+});
+
+app.post('/crawler/Comments', async (req, res) => {
+    const url = req.body.Url;
+    const message = req.body.Message;
+    await CommentsInsta.CommentsFunction(url,message);
+    res.redirect("/Commenter-une-plusieurs-publication-avec-plusieurs-messages-ou-un-seul.html");
+});
+
+app.post('/crawler/DisplayProfil', async (req, res) => {
+    const profil = req.body.usernameInput;
+    await DisplayProfil.DisplayFunction(profil);
+    res.redirect("/Afficher-le-profil-d'une-personne-donné.html");
+});
+
+
+
+
 
 // Exporte le client PostgreSQL
 module.exports = client;

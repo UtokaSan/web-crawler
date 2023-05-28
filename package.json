@@ -11,6 +11,7 @@
   "dependencies": {
     "afinn-111": "^2.0.1",
     "compromise": "^14.9.0",
+    "cors": "^2.8.5",
     "emoji-sentiment": "^3.0.2",
     "express": "^4.18.2",
     "franc": "^6.1.0",

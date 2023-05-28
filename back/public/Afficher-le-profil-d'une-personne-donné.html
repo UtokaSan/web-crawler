@@ -14,8 +14,8 @@
 <body>
 <div class="container">
     <div class="form">
-        <form method="POST"  onsubmit="handleFormSubmit(event)">
-            <input type="text" class="input" id="usernameInput" placeholder="Nom d'utilisateur">
+        <form method="POST"  action="http://localhost:3000/crawler/DisplayProfil">
+            <input type="text" class="input" id="usernameInput" name="usernameInput" placeholder="Nom d'utilisateur">
             <button type="submit" class="btn">Valider</button>
         </form>
     </div>
