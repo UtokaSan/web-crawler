@@ -1,4 +1,4 @@
-fetch("http://localhost:3000/api/produits")
+fetch("http://localhost:3000/api/produitsamazon")
     .then(response => response.json())
     .then(data => {
         console.log(data);

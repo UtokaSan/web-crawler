@@ -16,7 +16,6 @@ port: 5432,
 
 client.connect();
 
-// Définit le répertoire statique
 app.use(express.static("public"));
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -25,16 +24,17 @@ app.post('/crawler/sale', async (req, res) => {
     const inputSearch = req.body.inputSearch;
     await crawlerSale.indexCrawling(inputSearch, client);
     res.redirect("/sites-de-vente.html");
+
 });
 
-app.get('/api/produitsamazon', (req, res) => {
-   transformQueryJson('produitscdiscount');
+app.get('/api/produitsaliexpress', (req, res) => {
+    transformQueryJson('produitsaliexpress', res);
 })
 app.get('/api/produitsamazon', (req, res) => {
-    transformQueryJson('produitsamazon');
+    transformQueryJson('produitsamazon', res);
 })
 
-function transformQueryJson (name) {
+function transformQueryJson (name, res) {
     const sql = `SELECT * FROM ${name}`;
 
     client.query(sql, (err, result) => {
@@ -71,8 +71,8 @@ client.query(createQueryTableAmazon, (err, res) => {
     }
 });
 
-const createQueryTableCDiscount = `
-    CREATE TABLE ProduitsCDiscount(  
+const createQueryTableAliexpress = `
+    CREATE TABLE ProduitsAliexpress(  
         Id SERIAL PRIMARY KEY,
         Titre VARCHAR(255),
         Image VARCHAR(255),
@@ -81,11 +81,11 @@ const createQueryTableCDiscount = `
     )
 `;
 
-client.query(createQueryTableCDiscount, (err, res) => {
+client.query(createQueryTableAliexpress, (err, res) => {
     if (err) {
-        console.error('Erreur lors de la création de la table ProduitsCdiscount:', err.message);
+        console.error('Erreur lors de la création de la table ProduitsAliexpress:', err.message);
     } else {
-        console.log('Table ProduitsCDiscount créée avec succès.');
+        console.log('Table ProduitsAliexpress créée avec succès.');
     }
 });
 
