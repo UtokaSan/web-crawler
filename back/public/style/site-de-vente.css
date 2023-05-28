@@ -72,3 +72,13 @@
     visibility: visible;
     transition-delay: 0s;
 }
+.middle-bar {
+    position: fixed;
+    top: 56%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 2px;
+    height: 600px;
+    background-color: black;
+    z-index: 9999;
+}

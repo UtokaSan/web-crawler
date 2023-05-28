@@ -21,5 +21,11 @@ function handleKeyPress(event) {
         var searchBar = document.getElementById('searchBar');
         searchBar.classList.add('search-bar-small');
         searchBar.style.transform = 'translate(-50%, 0)';
+
+        setTimeout(function() {
+            var middleBar = document.createElement('div');
+            middleBar.classList.add('middle-bar');
+            document.body.appendChild(middleBar);
+        }, 300);
     }
 }
