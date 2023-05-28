@@ -3,7 +3,7 @@ const {Client} = require('pg');
 const {all} = require("express/lib/application");
 
 async function indexCrawling(client) {
-    const browser = await puppeteer.launch({headless: false});
+    const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await deleteTableData("produits", client);
     await runAmazon(page, client);
@@ -23,7 +23,9 @@ async function takeLinkDiscount() {
 async function runCDiscount (page, client) {
     await page.goto('https://www.cdiscount.com/', {waitUntil: 'networkidle2'});
     const acceptCookie = await page.waitForSelector("button[title='Accepter']", {visible: true, timeout: 2000});
-    await acceptCookie.click()
+    if (acceptCookie) {
+        return await acceptCookie.click();
+    }
     await page.waitForSelector("input[type='search']");
     await page.type("input[type='search']", "Chemise");
     await page.keyboard.press("Enter");
