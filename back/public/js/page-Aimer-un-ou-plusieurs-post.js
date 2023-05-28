@@ -27,7 +27,6 @@ btn.addEventListener('click', function() {
     const number1 = parseInt(numberInputs[0].innerText);
     const number2 = parseInt(numberInputs[1].innerText);
 
-
     const xhr = new XMLHttpRequest();
     xhr.open('POST', 'http://localhost:3000/crawler/sale');
     xhr.setRequestHeader('Content-Type', 'application/json');
