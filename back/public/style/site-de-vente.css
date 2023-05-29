@@ -24,17 +24,30 @@
     justify-items: center;
     border: white 2px solid;
 }
-p {
+.item-amazon > p {
     padding-right: 20px;
 }
 
 #main-aliexpress {
+    display: flex;
+    flex-direction: column;
     position: absolute;
     right: 0;
     border: white 2px solid;
     width: 20%;
     background-color: black;
     border-radius: 10px;
+}
+.item-aliexpress {
+    display: flex;
+    justify-items: center;
+    border: white 2px solid;
+}
+.item-aliexpress > p {
+    padding-right: 5px;
+}
+.item-amazon > p {
+    padding-right: ;
 }
 img {
     width: 40%;
