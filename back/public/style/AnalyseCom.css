@@ -1,4 +1,4 @@
-body {
+html, body {
     height: 100%;
     margin: 0;
     background: url("../img/background.png");
@@ -6,22 +6,8 @@ body {
 
 #test > p {
     padding-right: 10px;
-    color: white;
-}
 
-#test {
-    width: 40%;
-    height: 874px;
-    overflow-y: scroll;
-    scrollbar-color: rebeccapurple green;
-    scrollbar-width: thin;
 }
-
-#moyenne > h1 {
-    padding-right: 10px;
-    color: white;
-}
-
 .form {
     display: flex;
     align-items: center;
@@ -46,4 +32,15 @@ form {
     color: white;
 }
 
+#moyenne {
+color: white;
+}
 
+#test {
+    color: white;
+    width: 500px;
+  height: 872px;
+  overflow-y: scroll;
+  scrollbar-color: rebeccapurple green;
+  scrollbar-width: thin;
+}

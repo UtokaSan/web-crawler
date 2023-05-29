@@ -1,6 +1,4 @@
-* {
-    background: #0a0a0a;
-}
+
 
 #header {
     display: flex;
@@ -15,10 +13,10 @@
     flex-direction: column;
     position: absolute;
     left: 0;
-    width: 20%;
-    background-color: black;
     border-radius: 10px;
-    margin-right: 10px;
+    margin-left: 10px;
+    width: 700px;
+    height: 1000px;
 }
 
 .item-amazon {
@@ -28,26 +26,27 @@
     margin-bottom: 10px;
     transition: transform 0.3s;
     border-radius: 10px;
+    height: 150px;
 }
 
 .item-amazon:hover {
     transform: translateY(-5px);
 }
 
-.item-amazon > p {
-    padding-right: 20px;
-}
+
 
 #main-aliexpress {
     display: flex;
     flex-direction: column;
     position: absolute;
     right: 0;
-    width: 20%;
-    background-color: black;
     border-radius: 10px;
     margin-left: 10px;
+    width: 700px;
+    height: 1000px;
+
 }
+
 
 .item-aliexpress {
     display: flex;
@@ -58,6 +57,32 @@
     border-radius: 10px;
 
 }
+
+.item-aliexpress > img{
+    position: relative;
+    right: 0%;
+    width: 150px; 
+}
+.item-aliexpress > p {
+    position: relative;
+    left: 0%;
+    text-align: center;
+    font-size: 20px;
+}
+
+
+.item-amazon > img{
+    position: relative;
+    right: 0%;
+    width: 150px; 
+}
+.item-amazon > p{
+    position: relative;
+    left: 0%;
+    text-align: center;
+    font-size: 20px;
+}
+
 
 .item-aliexpress:hover {
     transform: translateY(-5px);
@@ -86,6 +111,7 @@ p {
 
 body {
     background-color: black;
+    overflow: hidden;
 }
 
 #button{
