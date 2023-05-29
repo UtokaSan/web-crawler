@@ -4,41 +4,22 @@ const btn = document.querySelector('.btn');
 
 const userMessages = {};
 
-btn.addEventListener('click', function() {
-    const users = usersInput.value.trim().split(',');
-    const message = messageInput.value.trim();
+fetch('http://localhost:3000/api/screencomments')
+  .then(response => response.json())
+  .then(data => {
+    const div = document.querySelector('#screenshotContainer');
 
-    if (users.length === 0 || message === '') {
-        console.log('Veuillez remplir tous les champs.');
-        return;
-    }
-
-    for (let i = 0; i < users.length; i++) {
-        const user = users[i].trim();
-        if (user !== '') {
-            userMessages[user] = message;
-        }
-    }
-
-    usersInput.value = '';
-    messageInput.value = '';
-
-    const data = {
-        userMessages: userMessages
-    };
-
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', 'http://localhost:3000/crawler/sale');
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.onload = function() {
-        if (xhr.status === 200) {
-            console.log('Requête réussie. Réponse du serveur :', xhr.responseText);
-        } else {
-            console.error('Erreur lors de la requête. Statut du serveur :', xhr.status);
-        }
-    };
-    xhr.onerror = function() {
-        console.error('Erreur lors de la requête.');
-    };
-    xhr.send(JSON.stringify(data));
-});
+    // Parcourir les URLs des images et les ajouter au contenu HTML de la div
+    data.imageUrls.forEach(imageUrl => {
+      const img = document.createElement('img');
+      // Transform the URL
+      imageUrl = imageUrl.replace(/\\/g, '/').replace(/\/+/g, '/');
+      const transformedUrl = imageUrl.replace(/^.*\/screenshots/, 'http://localhost:3000/screenshots');
+      img.src = transformedUrl;
+      img.classList.add('screenshot');
+      div.appendChild(img);
+    });
+  })
+  .catch(error => {
+    console.error(error);
+  });

@@ -1,4 +1,4 @@
-fetch('http://localhost:3000/api/screenlike')
+fetch('http://localhost:3000/api/screenfollow')
   .then(response => response.json())
   .then(data => {
     const div = document.querySelector('#screenshotContainer');
