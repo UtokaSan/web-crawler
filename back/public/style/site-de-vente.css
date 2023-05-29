@@ -60,8 +60,14 @@ p {
 
 .search-input {
     border-radius: 10px;
+    border-color: white;
 }
 
 body {
     background-color: black;
+}
+#button{
+    border-radius: 10px;
+    border-color: white;
+    background-color: white;
 }

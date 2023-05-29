@@ -19,20 +19,10 @@ header {
     width: 100%;
 }
 
-header .img img {
-    width: 40px;
-    padding: 0px 10px;
-    filter: invert(0.9);
-}
 
 header .heading {
     font-family: "Neutral Face";
     font-size: 1.2rem;
-}
-
-header .menu img {
-    width: 25px;
-    padding: 0px 30px;
 }
 
 .container {
