@@ -1,9 +1,17 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
 .container {
     display: flex;
+    justify-content: center;
     align-items: center;
+    height: 100%;
 }
 
 .checkbox {
+    display: inline-block;
     width: 20px;
     height: 20px;
     border: 1px solid black;
@@ -16,16 +24,19 @@
 }
 
 .message {
+    display: inline-block;
     margin-right: 10px;
 }
 
 .arrow {
+    display: inline-block;
     font-size: 20px;
     margin-right: 10px;
     cursor: pointer;
 }
 
 .number-input {
+    display: inline-block;
     width: 30px;
     height: 30px;
     border: 1px solid black;
@@ -35,6 +46,7 @@
 }
 
 .btn {
+    display: inline-block;
     padding: 10px 20px;
     background-color: #3498db;
     color: white;
