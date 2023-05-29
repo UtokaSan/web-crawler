@@ -1,5 +1,4 @@
 const puppeteer = require('puppeteer');
-const express = require("express");
 require("dotenv").config();
 const fs = require('fs');
 const path = require('path');
@@ -28,25 +27,8 @@ if (likeChoice === "Like"){
       const url = await FirstLinkFromProfil(page);
       for (let i = number_input1 - 1; i < number_input2; i++) {
         const link = url[i];
-        try{
         await page.goto(link, { waitUntil: "networkidle2" });
-        const button = document.querySelector('a.x1i10hfl button._acan');
-        try{
-          await page.waitForSelector(button); 
-          await BugInsta(page);
-          await page.goto(link, { waitUntil: "networkidle2" });
-        }catch (error){
-          console.log("Butron connexion oas trouv")
-        }
-        const svgSelector = 'span.xp7jhwk svg'; // Sélecteur CSS pour le premier élément SVG avec la classe "_aame"
-        // Attendre que l'élément SVG soit présent dans le DOM
-        await page.waitForSelector(svgSelector);
-        }catch (error){
-          await NewProfilToSearch(page,userInput);
-          await BugInsta(page);
-          await page.goto(link, { waitUntil: "networkidle2" });
-        }
-        await LikePost(page,url[i]); // Appel de la fonction functionlike pour chaque lien dans la plage spécifiée
+        await LikePost(page,url[i],userInput); // Appel de la fonction functionlike pour chaque lien dans la plage spécifiée
         await captureScreenshots(page,screenshots);
       }
     }else if ((checked === "Specific")){
@@ -54,7 +36,7 @@ if (likeChoice === "Like"){
       for (const url of urls) {
         const trimmedUrl = url.trim(); // Supprimer les espaces vides autour de chaque URL
         await page.goto(trimmedUrl, { waitUntil: "networkidle2" });
-        await LikePost(page,url); // Passer chaque URL à la fonction functionlike
+        await LikePost(page,url,"leagueoflegends"); // Passer chaque URL à la fonction functionlike
         await captureScreenshots(page,screenshots);
       }
     }
@@ -64,31 +46,16 @@ if (likeChoice === "Like"){
       const url = await FirstLinkFromProfil(page);
       for (let i = number_input1 - 1; i < number_input2; i++) {
         const link = url[i];
-        try{
-          await page.goto(link, { waitUntil: "networkidle2" });
-          const button = document.querySelector('a.x1i10hfl button._acan');
-          try{
-            await page.waitForSelector(button); 
-            await BugInsta(page);
-            await page.goto(link, { waitUntil: "networkidle2" });
-          }catch (error){}
-          const svgSelector = 'span.xp7jhwk svg'; // Sélecteur CSS pour le premier élément SVG avec la classe "_aame"
-          // Attendre que l'élément SVG soit présent dans le DOM
-          await page.waitForSelector(svgSelector);
-          }catch (error){
-            await NewProfilToSearch(page,userInput);
-            await BugInsta(page);
-            await page.goto(link, { waitUntil: "networkidle2" });
-          }
-          await UnlikePost(page,url[i]); // Appel de la fonction functionlike pour chaque lien dans la plage spécifiée
-          await captureScreenshots(page,screenshots);
+        await page.goto(link, { waitUntil: "networkidle2" });
+        await UnlikePost(page,url[i],userInput); // Appel de la fonction functionlike pour chaque lien dans la plage spécifiée
+        await captureScreenshots(page,screenshots);
       }
     }else if ((checked === "Specific")){
       const urls = urlInput.split(',');
       for (const url of urls) {
         const trimmedUrl = url.trim(); // Supprimer les espaces vides autour de chaque URL
         await page.goto(trimmedUrl, { waitUntil: "networkidle2" });
-        await UnlikePost(page,url); // Passer chaque URL à la fonction functionlike
+        await UnlikePost(page,url,"leagueoflegends"); // Passer chaque URL à la fonction functionlike
         await captureScreenshots(page,screenshots);
       }
     }
@@ -124,11 +91,12 @@ async function FirstLinkFromProfil(page) {
   return allHrefs;
 }
 
-async function LikePost (page,url){
+async function LikePost (page,url,userInput){
   //Connaitre la couleur du j'aime , blanc ou rouge
   const svgSelector = 'span.xp7jhwk svg'; // Sélecteur CSS pour le premier élément SVG avec la classe "_aame"
   // Attendre que l'élément SVG soit présent dans le DOM
-  await page.waitForSelector(svgSelector);
+    await BugInsta(page,userInput,url);
+    await page.waitForSelector(svgSelector);
   // Sélectionner le premier élément SVG avec la classe "_aame"
   const svgHandle = await page.$(svgSelector);
   // Extraire la valeur de l'attribut "color" de l'élément SVG
@@ -152,9 +120,11 @@ async function LikePost (page,url){
   }
 }
 
-async function UnlikePost (page,url){
+async function UnlikePost (page,url,userInput){
   //Connaitre la couleur du j'aime , blanc ou rouge
   const svgSelector = 'span.xp7jhwk svg'; // Sélecteur CSS pour le premier élément SVG avec la classe "_aame"
+    await BugInsta(page,userInput,url);
+    await page.waitForSelector(svgSelector);
   // Attendre que l'élément SVG soit présent dans le DOM
   await page.waitForSelector(svgSelector);
   // Sélectionner le premier élément SVG avec la classe "_aame"
@@ -235,9 +205,14 @@ async function scrollPageToBottom(page) {
 }
 
 
-async function BugInsta(page) {
+async function BugInsta(page,url,post) {
   try {
-
+    try {
+      await page.waitForSelector('label.uiButton input[type="button"][name="login"]');
+    } catch(error){
+      console.log("Pas de popup");
+    }
+    NewProfilToSearch(page,url);
     // Attendre que le bouton de connexion soit présent dans la page et soit cliquable
     await page.waitForSelector('a.x1i10hfl button._acan');
     // Cliquer sur le bouton de connexion
@@ -248,7 +223,7 @@ async function BugInsta(page) {
     await page.click('button[type=submit]', { delay: getRandomDelay() });
 
     await page.waitForTimeout(8000);
-    await page.goto(hrefs[i], { waitUntil: "networkidle2" });
+    await page.goto(post, { waitUntil: "networkidle2" });
 
 }catch (error){
 

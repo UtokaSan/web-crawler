@@ -1,5 +1,8 @@
 const puppeteer = require('puppeteer');
 require("dotenv").config();
+const axios = require('axios');
+const fs = require('fs');
+const path = require('path');
 
 
 async function DisplayFunction(profil,client) {
@@ -23,7 +26,8 @@ async function DisplayFunction(profil,client) {
     await NewProfilToSearch(page,profil);
     await page.waitForTimeout(5000)
     await DisplayProfil(client,page);
-    //await browser.close();
+    await page.waitForTimeout(5000)
+    await browser.close();
 };
 
 async function NewProfilToSearch(page,profil) {
@@ -34,7 +38,8 @@ async function DisplayProfil (client,page){
     console.log("Tu passse avant moi ")
     //Image
     const imageDiv = await page.waitForSelector('div._aarf');
-    const imageSrc = await page.evaluate((element) => element.querySelector('img').getAttribute('src'), imageDiv);
+    var imageSrc = await page.evaluate((element) => element.querySelector('img').getAttribute('src'), imageDiv);
+    imageSrc = await downloadImage(imageSrc);
     console.log(imageSrc);
     //Pseudo
     const h2Element = await page.waitForSelector('h2.x1lliihq.x1plvlek.xryxfnj.x1n2onr6.x193iq5w.xeuugli.x1fj9vlw.x13faqbe.x1vvkbs.x1s928wv.xhkezso.x1gmr53x.x1cpjm7i.x1fgarty.x1943h6x.x1i0vuye.x1ms8i2q.xo1l8bm.x5n08af.x10wh9bi.x1wdrske.x8viiok.x18hxmgj');
@@ -80,10 +85,11 @@ async function DisplayProfil (client,page){
         // Parcourir tous les nouveaux éléments <li>
         for (const liElement of liElements) {
           // Récupérer l'URL de l'image à l'aide de page.evaluate
-          const imageSrcTexte = await page.evaluate((element) => element.querySelector('img').getAttribute('src'), liElement);
+          var imageSrcTexte = await page.evaluate((element) => element.querySelector('img').getAttribute('src'), liElement);
           // Récupérer le texte à partir de l'élément <span> à l'aide de page.evaluate
           const text = await page.evaluate((element) => element.querySelector('span.x1lliihq').textContent.trim(), liElement);
           // Afficher les informations dans la console (ou effectuer toute autre opération souhaitée)
+          imageSrcTexte = await downloadImage(imageSrcTexte);
           insertDB2(client, imageSrcTexte,text);
           console.log(imageSrcTexte);
           console.log(text);
@@ -91,8 +97,8 @@ async function DisplayProfil (client,page){
           await liElement.evaluate((element) => element.classList.add('_processed'));
         }
       }
-
-}
+      await page.waitForTimeout(5000)
+    }
 
 
 async function insertDB(client, imageSrc,h2Text,liText,followersTitle,followingText,nameElement,contactElement) {
@@ -122,6 +128,29 @@ async function insertDB2(client, imageSrcTexte,text) {
         console.error('Erreur lors de l\'insertion d\'une nouvelle ligne:', err.message);
     }
 }
+
+  async function downloadImage (imageUrl) {
+    try {
+      const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
+      const imageFileName = generateUniqueFileName();
+      const folderPath = path.join(__dirname, '../back/public/screenshots');
+      // Créer le dossier screenshots si nécessaire
+      if (!fs.existsSync(folderPath)) {
+        fs.mkdirSync(folderPath, { recursive: true });
+      }
+      const imageFilePath = path.join(__dirname, '../back/public/screenshots', imageFileName);
+      fs.writeFileSync(imageFilePath, response.data);
+      return imageFileName;
+    } catch (error) {
+      console.error('Erreur lors du téléchargement de l\'image :', error);
+      throw error;
+    }
+  };
+  
+  const generateUniqueFileName = () => {
+    const timestamp = Date.now();
+    return `image_${timestamp}.jpg`;
+  };
 
 // Fonction pour obtenir un délai aléatoire
 function getRandomDelay() {

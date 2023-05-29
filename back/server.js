@@ -175,14 +175,14 @@ client.query(createQueryProfildetail, (err, res) => {
 app.post('/crawler/FollowInsta', async (req, res) => {
     const usernameInput = req.body.usernameInput;
     const optionRadioFollowUnfollow = req.body.option;
-    await FollowInsta.FollowFunction(usernameInput,optionRadioFollowUnfollow, client);
+    await FollowInsta.FollowFunction(app,usernameInput,optionRadioFollowUnfollow, client);
     res.redirect("/Follow-Unfollow une-plusieurs-personnes-donnés.html");
 });
 
 app.post('/crawler/Comments', async (req, res) => {
     const url = req.body.Url;
     const message = req.body.Message;
-    await CommentsInsta.CommentsFunction(url,message);
+    await CommentsInsta.CommentsFunction(app,url,message);
     res.redirect("/Commenter-une-plusieurs-publication-avec-plusieurs-messages-ou-un-seul.html");
 });
 
