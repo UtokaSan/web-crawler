@@ -2,24 +2,37 @@
     display: flex;
     justify-content: center;
     margin-top: 10px;
+    background-color: black;
+    border-radius: 10px;
 }
 
 #main-amazon {
     position: absolute;
     left: 0;
-    border: #8f0000 2px solid;
+    border: white 2px solid;
     width: 20%;
+    background-color: black;
+    border-radius: 10px;
 }
 
 #main-aliexpress {
     position: absolute;
     right: 0;
-    border: #8f0000 2px solid;
+    border: white 2px solid;
     width: 20%;
+    background-color: black;
+    border-radius: 10px;
 }
 img {
-    width: 10%;
+    width: 40%;
+    background-color: black;
+    border-radius: 10px;
 }
 p {
     font-size: 20px;
+    color: white;
+    background-color: black;
+}
+.search-input {
+    border-radius: 10px;
 }
