@@ -4,14 +4,19 @@
     justify-content: center;
     height: 100vh;
 }
+#test > p {
+    padding-right: 10px;
 
+}
 .form {
     display: flex;
     align-items: center;
 }
 
-.input {
-    margin-right: 10px;
+form {
+    position: absolute;
+    left: 50%;
+    top: 5%;
 }
 
 .btn {
@@ -24,7 +29,33 @@
 }
 body{
     background: black;
+    color: white;
 }
 .arrow, .checkbox[value="Like"], .checkbox[value="Unlike"] {
     color: white;
+}
+
+#test {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#test2 {
+    margin-top: 30%;
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+#test2 > div {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+#test2 img {
+    width: 300px;
+    height: 300px;
 }
