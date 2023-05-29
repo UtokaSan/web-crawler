@@ -7,7 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="js/page-Aimer-un-ou-plusieurs-post.js"></script>
     <link rel="stylesheet" href="style/page-Aimer-un-ouplusieurs-post.css" />
-
+    <style>
+      .screenshot {
+        width: 100%; /* Ajustez la taille en fonction de vos besoins */
+        height: auto;
+      }
+    </style>
     <title>Carreaux interactifs</title>
 
 </head>
@@ -20,10 +25,10 @@
           </label>
           <span class="message">1 à 50</span>
           <span class="arrow">:</span>
-          <div class="number-input"  name="number_input1" contenteditable="true"></div>
-          <span class="arrow">→</span>
-          <div class="number-input" name="number_input2" contenteditable="true"></div>
           <input type="text" class="input" name="UserInput" placeholder="Utilisateurs (séparés par des virgules)">
+          <span class="arrow">→</span>
+          <input type="text" class="input" name="number_input1" placeholder="Chiffre 1">
+          <input type="text" class="input" name="number_input2" placeholder="Chiffre 2">
           <div>
           <label>
             <input type="radio" name = "checked" value = "Specific" class="checkbox">
@@ -38,5 +43,6 @@
         </div>
         </form>
       </div>
+      <div id = "screenshotContainer"></div>
 </body>
 </html>

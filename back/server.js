@@ -195,14 +195,17 @@ app.post('/crawler/Analyse', async (req, res) => {
 });
 
 app.post('/crawler/LikePost', async (req, res) => {
-    const number_input2 = req.body.usernameInput;
-    const number_input1 = req.body.usernameInput;
+    const number_input2 = req.body.number_input2;
+    const number_input1 = req.body.number_input1;
     const checked = req.body.checked;
     const urlInput = req.body.UrlInput;
     const userInput = req.body.UserInput;
     const likeChoice = req.body.Like;
 
-    await LikePost.LikeFunction(number_input1,number_input2,checked,urlInput,userInput,likeChoice);
+    console.log(number_input2);
+    console.log(number_input1);
+    
+    await LikePost.LikeFunction(number_input1,number_input2,checked,urlInput,userInput,likeChoice,app);
     res.redirect("/page-Aimer-un-ou-plusieurs-post.html");
 });
 
@@ -435,6 +438,13 @@ async function insertDB(emoticones) {
 }
 
 EmoticoneAdd();
+
+const deleteQuery = `DELETE  FROM profil`;
+client.query(deleteQuery);
+const delete2Query = `DELETE  FROM profildetail`;
+client.query(delete2Query);
+const delete3Query = `DELETE  FROM comments`;
+client.query(delete3Query);
 
 // Exporte le client PostgreSQL
 module.exports = client;
