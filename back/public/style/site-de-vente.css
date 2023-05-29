@@ -23,16 +23,32 @@
     background-color: black;
     border-radius: 10px;
 }
+
+#main-cediscount {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    border: white 2px solid;
+    width: 20%;
+    background-color: black;
+    border-radius: 10px;
+}
+
 img {
     width: 40%;
     background-color: black;
     border-radius: 10px;
 }
+
 p {
     font-size: 20px;
     color: white;
-    background-color: black;
 }
+
 .search-input {
     border-radius: 10px;
+}
+
+body {
+    background-color: black;
 }
