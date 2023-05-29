@@ -1,6 +1,7 @@
 html, body {
     height: 100%;
     margin: 0;
+    background: url("../img/background.png")no-repeat;
 }
 
 .container {
@@ -63,21 +64,7 @@ html, body {
     width: calc(100% / 6);
     height: auto;
 }
-body{
-    background: black;
-}
 
-.img2 {
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    width: 100px;
-    height: auto;
-}
-
-img{
-    width: 300px;
-}
 .arrow, .checkbox[value="Like"], .checkbox[value="Unlike"] {
     color: white;
 }

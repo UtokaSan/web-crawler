@@ -1,3 +1,8 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    background: url("../img/background.png");
+}
 .container {
     display: flex;
     align-items: center;
@@ -28,7 +33,4 @@
     flex-wrap: wrap;
     width: calc(100% / 6);
     height: auto;
-}
-body{
-    background: black;
 }
