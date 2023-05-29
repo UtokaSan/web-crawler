@@ -22,3 +22,9 @@
     border-radius: 5px;
     cursor: pointer;
 }
+body{
+    background: black;
+}
+.arrow, .checkbox[value="Like"], .checkbox[value="Unlike"] {
+    color: white;
+}

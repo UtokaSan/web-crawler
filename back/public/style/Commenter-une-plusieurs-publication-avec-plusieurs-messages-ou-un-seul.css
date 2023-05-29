@@ -23,3 +23,12 @@
     border-radius: 5px;
     cursor: pointer;
 }
+.screenshotContainer{
+    display: flex;
+    flex-wrap: wrap;
+    width: calc(100% / 6);
+    height: auto;
+}
+body{
+    background: black;
+}
