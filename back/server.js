@@ -29,7 +29,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.post('/crawler/sale', async (req, res) => {
     const inputSearch = req.body.inputSearch;
     await crawlerSale.indexCrawling(inputSearch, client);
-    res.redirect("/sites-de-vente.html");
+    res.redirect("/SitesVente.html");
 });
 
 app.get('/api/produitsaliexpress', (req, res) => {
