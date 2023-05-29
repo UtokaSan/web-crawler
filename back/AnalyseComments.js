@@ -13,8 +13,8 @@ async function AnalyseFunction (client,user) {
     // Se rendre sur la page de connexion Instagram
     await page.goto('https://www.instagram.com/accounts/login', { waitUntil: "networkidle2" });
     await page.waitForSelector('input[name=username]');
-    await page.type('input[name=username]', 'Delatuilcecz', { delay: 20 });
-    await page.type('input[name=password]', 'PasswordAdmin856726', { delay: 20 });
+    await page.type('input[name=username]', 'fodaw77731', { delay: getRandomDelay() });
+    await page.type('input[name=password]', 'PasswordAdmin856726', { delay: getRandomDelay() });
     await page.click('button[type=submit]', { delay: getRandomDelay() });
 
     await page.waitForTimeout(8000);
@@ -36,24 +36,7 @@ async function AnalyseFunction (client,user) {
     // Attendre que la page de destination soit complètement chargée
     await page.goto(hrefs[i], { waitUntil: "networkidle2" });
 
-    try {
-        await page.waitForSelector('label.uiButton input[type="button"][name="login"]');
-        await page.goto(url, { waitUntil: "networkidle2" });
-        // Attendre que le bouton de connexion soit présent dans la page et soit cliquable
-        await page.waitForSelector('a.x1i10hfl button._acan');
-        // Cliquer sur le bouton de connexion
-        await page.click('a.x1i10hfl button._acan');
-        await page.waitForSelector('input[name=username]');
-        await page.type('input[name=username]', 'Delatuilcecz', { delay: 20 });
-        await page.type('input[name=password]', 'PasswordAdmin856726', { delay: 20 });
-        await page.click('button[type=submit]', { delay: getRandomDelay() });
-    
-        await page.waitForTimeout(8000);
-        await page.goto(hrefs[i], { waitUntil: "networkidle2" });
-
-    }catch (error){
-
-    }
+    await BugInsta(page,user,hrefs[i]);
 
     // Cliquer pour afficher les commentaires plusieurs fois
     const boutonCommentairesSelector = 'li div.x9f619.xjbqb8w.x78zum5.x168nmei.x13lgxp2.x5pf9jr.xo71vjh.xdj266r.xat24cr.x1n2onr6.x1plvlek.xryxfnj.x1c4vz4f.x2lah0s.xdt5ytf.xqjyukv.x1qjc9v5.x1oa3qoh.xl56j7k button._abl-';
@@ -108,13 +91,40 @@ async function insertDB(client, comm, score) {
     }
 }
 
-  
+async function BugInsta(page,url,post) {
+    try {
+    try {
+        await page.waitForSelector('label.uiButton input[type="button"][name="login"]');
+    } catch(error){
+        console.log("Pas de popup");
+    }
+    NewProfilToSearch(page,url);
+    // Attendre que le bouton de connexion soit présent dans la page et soit cliquable
+    await page.waitForSelector('a.x1i10hfl button._acan');
+    // Cliquer sur le bouton de connexion
+    await page.click('a.x1i10hfl button._acan');
+    await page.waitForSelector('input[name=username]');
+    await page.type('input[name=username]', 'fodaw77731', { delay: getRandomDelay() });
+    await page.type('input[name=password]', 'PasswordAdmin856726', { delay: getRandomDelay() });
+    await page.click('button[type=submit]', { delay: getRandomDelay() });
+
+    await page.waitForTimeout(8000);
+    await page.goto(post, { waitUntil: "networkidle2" });
+
+}catch (error){
+
+}
+}
+
+async function NewProfilToSearch(page,profil) {
+    await page.goto('https://www.instagram.com/' + profil, { waitUntil: "networkidle2" });
+}
+
 async function updateScore(client,comment, score) {
     const emoticons = await getAllEmoticonsFromDB(client); // Fonction pour récupérer tous les émojis depuis la base de données
   
     for (const emoticon of emoticons) {
       if (comment.includes(emoticon.smiley)) {
-        console.log("Score changé-------------------------------------------------")
         score += emoticon.score;
       }
     }

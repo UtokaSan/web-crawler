@@ -195,7 +195,7 @@ app.post('/crawler/DisplayProfil', async (req, res) => {
 app.post('/crawler/Analyse', async (req, res) => {
     const profil = req.body.usernameInput;
     await AnalyseComments.AnalyseFunction(client,profil);
-    res.redirect("/Afficher-le-profil-d'une-personne-donné.html");
+    res.redirect("/AnalyseComments.html");
 });
 
 app.post('/crawler/LikePost', async (req, res) => {
@@ -442,13 +442,6 @@ async function insertDB(emoticones) {
 }
 
 EmoticoneAdd();
-
-const deleteQuery = `DELETE  FROM profil`;
-client.query(deleteQuery);
-const delete2Query = `DELETE  FROM profildetail`;
-client.query(delete2Query);
-const delete3Query = `DELETE  FROM comments`;
-client.query(delete3Query);
 
 // Exporte le client PostgreSQL
 module.exports = client;

@@ -9,13 +9,12 @@ fetch("http://localhost:3000/api/analyse")
 
         let sum = 0;
         for (let i = 0; i < data.length; i++) {
-            html += `<p>Commentaire ${i + 1}: ${data[i].commentaires}</p>`;
-            html += `<p>Score ${i + 1}: ${data[i].score}</p>`;
+            html += `<p>Commentaire ${i + 1}: ${data[i].commentaires} -> Score : ${data[i].score}</p>`;
             sum += data[i].score;
         }
 
         const average = sum / data.length;
-        moyenneDiv.innerHTML = `<p>Moyenne des scores: ${average.toFixed(2)}</p>`;
+        moyenneDiv.innerHTML = `<h1>Moyenne des scores: ${average.toFixed(2)}<h1>`;
 
         div.innerHTML = html;
     })

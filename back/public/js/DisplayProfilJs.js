@@ -6,12 +6,12 @@ fetch("http://localhost:3000/api/profil")
         // Créer une chaîne HTML avec les données du profil
         let html = "";
         html += `<img src="${"http://localhost:3000/screenshots/"+ data[0].image}"  width="300" height="300">`;
-        html += `<p>Pseudo ${data[0].pseudo}</p>`;
-        html += `<p>Publication ${data[0].publication}</p>`;
-        html += `<p>Followers ${data[0].followers}</p>`;
-        html += `<p>Suivie ${data[0].suivie}</p>`;
-        html += `<p>Description ${data[0].description}</p>`;
-        html += `<p>Contact ${data[0].contact}</p>`;
+        html += `<p>Pseudo : ${data[0].pseudo}</p>`;
+        html += `<p>Publication : ${data[0].publication}</p>`;
+        html += `<p>Followers : ${data[0].followers}</p>`;
+        html += `<p>Suivie : ${data[0].suivie}</p>`;
+        html += `<p>Description : ${data[0].description}</p>`;
+        html += `<p>Contact : ${data[0].contact}</p>`;
 
         div.innerHTML = html;
     })
