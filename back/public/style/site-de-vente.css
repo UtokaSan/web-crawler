@@ -81,6 +81,7 @@ p {
 .search-input {
     border-radius: 10px;
     border-color: white;
+    color: white;
 }
 
 body {
