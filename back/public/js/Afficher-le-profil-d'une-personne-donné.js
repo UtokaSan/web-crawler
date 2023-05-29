@@ -2,7 +2,7 @@ const input = document.querySelector('.input');
 const btn = document.querySelector('.btn');
 
 function handleFormSubmit(event) {
-    event.preventDefault(); // Empêche le rechargement de la page
+    event.preventDefault();
 
     const usernameInput = document.getElementById('usernameInput');
     const username = usernameInput.value.trim();

@@ -17,6 +17,7 @@ html, body {
     border: 1px solid black;
     margin-right: 10px;
     cursor: pointer;
+    color: white;
 }
 
 .checkbox.checked {
@@ -26,6 +27,7 @@ html, body {
 .message {
     display: inline-block;
     margin-right: 10px;
+    color: white;
 }
 
 .arrow {
@@ -53,4 +55,27 @@ html, body {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+}
+
+.screenshotContainer{
+    width: 300px;
+    height: 200px;
+}
+body{
+    background: black;
+}
+
+.img2 {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 100px;
+    height: auto;
+}
+
+img{
+    width: 300px;
+}
+.arrow, .checkbox[value="Like"], .checkbox[value="Unlike"] {
+    color: white;
 }
