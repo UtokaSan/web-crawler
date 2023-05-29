@@ -1,3 +1,6 @@
+* {
+    background: #0a0a0a;
+}
 #header {
     display: flex;
     justify-content: center;
@@ -7,12 +10,22 @@
 }
 
 #main-amazon {
+    display: flex;
+    flex-direction: column;
     position: absolute;
     left: 0;
-    border: white 2px solid;
     width: 20%;
     background-color: black;
     border-radius: 10px;
+}
+
+.item-amazon {
+    display: flex;
+    justify-items: center;
+    border: white 2px solid;
+}
+p {
+    padding-right: 20px;
 }
 
 #main-aliexpress {
