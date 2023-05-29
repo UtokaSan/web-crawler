@@ -1,54 +1,99 @@
 const puppeteer = require('puppeteer');
+const express = require("express");
 require("dotenv").config();
+const fs = require('fs');
+const path = require('path');
 
 
-async function LikeFunction (number_input1,number_input2,checked,urlInput,userInput,likeChoice) {
+
+async function LikeFunction (number_input1,number_input2,checked,urlInput,userInput,likeChoice,app) {
     const browser = await puppeteer.launch({ headless: false });
     const page = await browser.newPage();
+  
+    console.log(checked);
+    console.log(likeChoice);
 
+    const screenshots = [];
     // Se rendre sur la page de connexion Instagram
     await page.goto('https://www.instagram.com/accounts/login', { waitUntil: "networkidle2" });
     await page.waitForSelector('input[name=username]');
-    await page.type('input[name=username]', 'LesfoufoufduQuoartier', { delay: 20 });
+    await page.type('input[name=username]', 'UnFouNeVauxPasDeuxFOU', { delay: 20 });
     await page.type('input[name=password]', 'PasswordAdmin856726', { delay: 20 });
     await page.click('button[type=submit]', { delay: getRandomDelay() });
 
     await page.waitForTimeout(8000);
 if (likeChoice === "Like"){
     if (checked === "unAcinq"){
-      await NewProfilToSearch(userInput);
+      await NewProfilToSearch(page,userInput);
       const url = await FirstLinkFromProfil(page);
       for (let i = number_input1 - 1; i < number_input2; i++) {
         const link = url[i];
+        try{
         await page.goto(link, { waitUntil: "networkidle2" });
-        await functionlike(page); // Appel de la fonction functionlike pour chaque lien dans la plage spécifiée
+        const button = document.querySelector('a.x1i10hfl button._acan');
+        try{
+          await page.waitForSelector(button); 
+          await BugInsta(page);
+          await page.goto(link, { waitUntil: "networkidle2" });
+        }catch (error){
+          console.log("Butron connexion oas trouv")
+        }
+        const svgSelector = 'span.xp7jhwk svg'; // Sélecteur CSS pour le premier élément SVG avec la classe "_aame"
+        // Attendre que l'élément SVG soit présent dans le DOM
+        await page.waitForSelector(svgSelector);
+        }catch (error){
+          await NewProfilToSearch(page,userInput);
+          await BugInsta(page);
+          await page.goto(link, { waitUntil: "networkidle2" });
+        }
+        await LikePost(page,url[i]); // Appel de la fonction functionlike pour chaque lien dans la plage spécifiée
+        await captureScreenshots(page,screenshots);
       }
     }else if ((checked === "Specific")){
       const urls = urlInput.split(',');
       for (const url of urls) {
         const trimmedUrl = url.trim(); // Supprimer les espaces vides autour de chaque URL
         await page.goto(trimmedUrl, { waitUntil: "networkidle2" });
-        await LikePost(page); // Passer chaque URL à la fonction functionlike
+        await LikePost(page,url); // Passer chaque URL à la fonction functionlike
+        await captureScreenshots(page,screenshots);
       }
     }
-  }else if (likeChoice === "UnLike"){
+  }else if (likeChoice === "Unlike"){
     if (checked === "unAcinq"){
-      await NewProfilToSearch(userInput);
+      await NewProfilToSearch(page,userInput);
       const url = await FirstLinkFromProfil(page);
       for (let i = number_input1 - 1; i < number_input2; i++) {
         const link = url[i];
-        await page.goto(link, { waitUntil: "networkidle2" });
-        await UnlikePost(page); // Appel de la fonction functionlike pour chaque lien dans la plage spécifiée
+        try{
+          await page.goto(link, { waitUntil: "networkidle2" });
+          const button = document.querySelector('a.x1i10hfl button._acan');
+          try{
+            await page.waitForSelector(button); 
+            await BugInsta(page);
+            await page.goto(link, { waitUntil: "networkidle2" });
+          }catch (error){}
+          const svgSelector = 'span.xp7jhwk svg'; // Sélecteur CSS pour le premier élément SVG avec la classe "_aame"
+          // Attendre que l'élément SVG soit présent dans le DOM
+          await page.waitForSelector(svgSelector);
+          }catch (error){
+            await NewProfilToSearch(page,userInput);
+            await BugInsta(page);
+            await page.goto(link, { waitUntil: "networkidle2" });
+          }
+          await UnlikePost(page,url[i]); // Appel de la fonction functionlike pour chaque lien dans la plage spécifiée
+          await captureScreenshots(page,screenshots);
       }
     }else if ((checked === "Specific")){
       const urls = urlInput.split(',');
       for (const url of urls) {
         const trimmedUrl = url.trim(); // Supprimer les espaces vides autour de chaque URL
         await page.goto(trimmedUrl, { waitUntil: "networkidle2" });
-        await UnlikePost(page); // Passer chaque URL à la fonction functionlike
+        await UnlikePost(page,url); // Passer chaque URL à la fonction functionlike
+        await captureScreenshots(page,screenshots);
       }
     }
   }
+    await handleScreenshotRequest(app,screenshots);
     await browser.close();
 };
 
@@ -72,16 +117,14 @@ async function FirstLinkFromProfil(page) {
     }
     allHrefs = allHrefs.concat(hrefs); // Ajouter les liens extraits au tableau global
     // Faire défiler la page jusqu'en bas
-    await page.evaluate(() => {
-      window.scrollTo(0, document.body.scrollHeight);
-    });
+    await scrollPageToBottom(page);
     await page.waitForTimeout(4000); // Attendre 4 secondes avant de continuer au prochain cycle
   }
   console.log(allHrefs); // Afficher tous les liens extraits
   return allHrefs;
 }
 
-async function LikePost (page){
+async function LikePost (page,url){
   //Connaitre la couleur du j'aime , blanc ou rouge
   const svgSelector = 'span.xp7jhwk svg'; // Sélecteur CSS pour le premier élément SVG avec la classe "_aame"
   // Attendre que l'élément SVG soit présent dans le DOM
@@ -109,7 +152,7 @@ async function LikePost (page){
   }
 }
 
-async function UnlikePost (page){
+async function UnlikePost (page,url){
   //Connaitre la couleur du j'aime , blanc ou rouge
   const svgSelector = 'span.xp7jhwk svg'; // Sélecteur CSS pour le premier élément SVG avec la classe "_aame"
   // Attendre que l'élément SVG soit présent dans le DOM
@@ -146,6 +189,71 @@ function getRandomDelayComment() {
     return Math.floor(Math.random() * 4000) + 1000; // Délai entre 3000 et 7000 ms (3 et 7 secondes)
 }
 
+
+async function handleScreenshotRequest(app, screenshots) {
+  app.get('/api/screenlike', async (req, res) => {
+    try {
+      res.json({ imageUrls: screenshots });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Une erreur s\'est produite lors de la capture des screenshots' });
+    }
+  });
+}
+
+
+
+async function captureScreenshots(page, screenshots) {
+  const folderPath = path.join(__dirname, '../back/public/screenshots');
+
+  // Créer le dossier screenshots si nécessaire
+  if (!fs.existsSync(folderPath)) {
+    fs.mkdirSync(folderPath, { recursive: true });
+  }
+  
+  const screenshotData = await page.screenshot();
+  const screenshotPath = path.join(__dirname, '../back/public/screenshots', `screenshot_${Date.now()}.png`);
+
+
+  fs.writeFileSync(screenshotPath, screenshotData);
+  screenshots.push(screenshotPath);
+}
+
+async function scrollPageToBottom(page) {
+  const scrollCount = 5; // Nombre de scrolls à effectuer
+  const distance = 100; // Distance à faire défiler à chaque étape
+  const delay = 200; // Délai entre chaque étape en millisecondes
+
+  for (let i = 0; i < scrollCount; i++) {
+    await page.evaluate(async (scrollDistance, scrollDelay) => {
+      await new Promise((resolve) => {
+        window.scrollBy(0, scrollDistance);
+        setTimeout(resolve, scrollDelay);
+      });
+    }, distance, delay);
+  }
+}
+
+
+async function BugInsta(page) {
+  try {
+
+    // Attendre que le bouton de connexion soit présent dans la page et soit cliquable
+    await page.waitForSelector('a.x1i10hfl button._acan');
+    // Cliquer sur le bouton de connexion
+    await page.click('a.x1i10hfl button._acan');
+    await page.waitForSelector('input[name=username]');
+    await page.type('input[name=username]', 'UnFouNeVauxPasDeuxFOU', { delay: 20 });
+    await page.type('input[name=password]', 'PasswordAdmin856726', { delay: 20 });
+    await page.click('button[type=submit]', { delay: getRandomDelay() });
+
+    await page.waitForTimeout(8000);
+    await page.goto(hrefs[i], { waitUntil: "networkidle2" });
+
+}catch (error){
+
+}
+}
 module.exports = {
   LikeFunction
 };

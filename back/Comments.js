@@ -11,7 +11,7 @@ async function CommentsFunction(urlsInput,messagesInput) {
     // Se rendre sur la page de connexion Instagram
     await page.goto('https://www.instagram.com/accounts/login', { waitUntil: "networkidle2" });
     await page.waitForSelector('input[name=username]');
-    await page.type('input[name=username]', 'LesfoufoufduQuoartier', { delay: 20 });
+    await page.type('input[name=username]', 'UnFouNeVauxPasDeuxFOU', { delay: 20 });
     await page.type('input[name=password]', 'PasswordAdmin856726', { delay: 20 });
     await page.click('button[type=submit]', { delay: getRandomDelay() });
 
