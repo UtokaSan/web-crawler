@@ -12,7 +12,7 @@ async function FollowFunction(app,usernameInput,optionRadioFollowUnfollow) {
     // Se rendre sur la page de connexion Instagram
     await page.goto('https://www.instagram.com/accounts/login', { waitUntil: "networkidle2" });
     await page.waitForSelector('input[name=username]'); // mailinstadefoufurieux@yopmail.com
-    await page.type('input[name=username]', 'UnFouNeVauxPasDeuxFOU', { delay: 20 });
+    await page.type('input[name=username]', 'Delatuilcecz', { delay: 20 });
     await page.type('input[name=password]', 'PasswordAdmin856726', { delay : 20 });
     await page.click('button[type=submit]', { delay: getRandomDelay() });
 
@@ -27,10 +27,12 @@ for (let i = 0; i < usernames.length; i++) {
     if (optionRadioFollowUnfollow === 'follow') {
     // Suivre les utilisateurs
     await FollowUser(page);
+    await page.waitForTimeout(5000);
     await captureScreenshots(page,screenshots);
     } else if (optionRadioFollowUnfollow === 'unfollow') {
     // Désabonner des utilisateurs
     await UnfollowUser(page);
+    await page.waitForTimeout(5000);
     await captureScreenshots(page,screenshots);
     }
     await page.waitForTimeout(5000);
@@ -133,7 +135,7 @@ async function BugInsta(page,url,post) {
     // Cliquer sur le bouton de connexion
     await page.click('a.x1i10hfl button._acan');
     await page.waitForSelector('input[name=username]');
-    await page.type('input[name=username]', 'UnFouNeVauxPasDeuxFOU', { delay: 20 });
+    await page.type('input[name=username]', 'Delatuilcecz', { delay: 20 });
     await page.type('input[name=password]', 'PasswordAdmin856726', { delay: 20 });
     await page.click('button[type=submit]', { delay: getRandomDelay() });
 

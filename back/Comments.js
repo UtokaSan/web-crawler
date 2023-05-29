@@ -13,7 +13,7 @@ async function CommentsFunction(app,urlsInput,messagesInput) {
     // Se rendre sur la page de connexion Instagram
     await page.goto('https://www.instagram.com/accounts/login', { waitUntil: "networkidle2" });
     await page.waitForSelector('input[name=username]');
-    await page.type('input[name=username]', 'UnFouNeVauxPasDeuxFOU', { delay: 20 });
+    await page.type('input[name=username]', 'Delatuilcecz', { delay: 20 });
     await page.type('input[name=password]', 'PasswordAdmin856726', { delay: 20 });
     await page.click('button[type=submit]', { delay: getRandomDelay() });
 
@@ -95,7 +95,7 @@ async function BugInsta(page,url,post) {
     // Cliquer sur le bouton de connexion
     await page.click('a.x1i10hfl button._acan');
     await page.waitForSelector('input[name=username]');
-    await page.type('input[name=username]', 'UnFouNeVauxPasDeuxFOU', { delay: 20 });
+    await page.type('input[name=username]', 'Delatuilcecz', { delay: 20 });
     await page.type('input[name=password]', 'PasswordAdmin856726', { delay: 20 });
     await page.click('button[type=submit]', { delay: getRandomDelay() });
 
