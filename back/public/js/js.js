@@ -18,7 +18,7 @@ $(function () {
 
     sitesDeVenteBtn.addEventListener('click', function (event) {
     event.preventDefault();
-    window.location.href = 'sites-de-vente.html';
+    window.location.href = 'SitesVente.html';
 });
 
     reseauxSociauxBtn.addEventListener('click', function (event) {
