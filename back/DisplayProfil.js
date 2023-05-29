@@ -2,7 +2,11 @@ const puppeteer = require('puppeteer');
 require("dotenv").config();
 
 
-async function DisplayFunction(profil) {
+async function DisplayFunction(profil,client) {
+    const deleteQuery = `DELETE  FROM profil`;
+    await client.query(deleteQuery);
+    const delete2Query = `DELETE  FROM profildetail`;
+    await client.query(delete2Query);
     const browser = await puppeteer.launch({ headless: false });
     const page = await browser.newPage();
 
@@ -17,7 +21,7 @@ async function DisplayFunction(profil) {
 
     await NewProfilToSearch(page,profil);
     await page.waitForTimeout(5000)
-    await DisplayProfil(page);
+    await DisplayProfil(client,page);
     //await browser.close();
 };
 
@@ -25,7 +29,7 @@ async function NewProfilToSearch(page,profil) {
     await page.goto('https://www.instagram.com/' + profil, { waitUntil: "networkidle2" });
 }
 
-async function DisplayProfil (page){
+async function DisplayProfil (client,page){
     console.log("Tu passse avant moi ")
     //Image
     const imageDiv = await page.waitForSelector('div._aarf');
@@ -45,8 +49,9 @@ async function DisplayProfil (page){
     console.log(followersTitle + " Followers");
     //Suivie
     const followingElements = await page.$$('li.xl565be.x1m39q7l.x1uw6ca5.x2pgyrj');
+    var followingText = "";
     if (followingElements.length >= 3) {
-    const followingText = await page.evaluate((element) => element.textContent.trim(), followingElements[2]);
+    followingText = await page.evaluate((element) => element.textContent.trim(), followingElements[2]);
     console.log(followingText);
     }
     //Description
@@ -55,6 +60,7 @@ async function DisplayProfil (page){
     const contactElement = await page.evaluate((element) => element.querySelector('h1').textContent.trim(), divElement);
     console.log(nameElement);
     console.log(contactElement);
+    insertDB(client,imageSrc,h2Text,liText,followersTitle,followingText,nameElement,contactElement);
     //Image-Texte
     // Boucle pour cliquer sur le bouton "Suivant" et récupérer les nouveaux éléments <li>
     while (true) {
@@ -77,6 +83,7 @@ async function DisplayProfil (page){
           // Récupérer le texte à partir de l'élément <span> à l'aide de page.evaluate
           const text = await page.evaluate((element) => element.querySelector('span.x1lliihq').textContent.trim(), liElement);
           // Afficher les informations dans la console (ou effectuer toute autre opération souhaitée)
+          insertDB2(client, imageSrcTexte,text);
           console.log(imageSrcTexte);
           console.log(text);
           // Marquer l'élément <li> comme traité en ajoutant une classe CSS
@@ -84,6 +91,35 @@ async function DisplayProfil (page){
         }
       }
 
+}
+
+
+async function insertDB(client, imageSrc,h2Text,liText,followersTitle,followingText,nameElement,contactElement) {
+    let insertQuery;
+    insertQuery = `
+        INSERT INTO profil (image,pseudo,publication,followers,suivie,description,contact)
+        VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING Id
+    `;
+    try {
+        const res = await client.query(insertQuery, [imageSrc,h2Text,liText,followersTitle,followingText,nameElement,contactElement]);
+        console.log('Nouvelle ligne insérée avec succès.');
+    } catch (err) {
+        console.error('Erreur lors de l\'insertion d\'une nouvelle ligne:', err.message);
+    }
+}
+
+async function insertDB2(client, imageSrcTexte,text) {
+    let insertQuery;
+    insertQuery = `
+        INSERT INTO profildetail (image,text)
+        VALUES ($1, $2) RETURNING Id
+    `;
+    try {
+        const res = await client.query(insertQuery, [imageSrcTexte,text]);
+        console.log('Nouvelle ligne insérée avec succès.');
+    } catch (err) {
+        console.error('Erreur lors de l\'insertion d\'une nouvelle ligne:', err.message);
+    }
 }
 
 // Fonction pour obtenir un délai aléatoire
