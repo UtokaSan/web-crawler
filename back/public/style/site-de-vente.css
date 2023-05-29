@@ -24,11 +24,13 @@
     justify-items: center;
     border: white 2px solid;
 }
-p {
+.item-amazon > p {
     padding-right: 20px;
 }
 
 #main-aliexpress {
+    display: flex;
+    flex-direction: column;
     position: absolute;
     right: 0;
     border: white 2px solid;
@@ -36,23 +38,22 @@ p {
     background-color: black;
     border-radius: 10px;
 }
-
-#main-cediscount {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+.item-aliexpress {
+    display: flex;
+    justify-items: center;
     border: white 2px solid;
-    width: 20%;
-    background-color: black;
-    border-radius: 10px;
 }
-
+.item-aliexpress > p {
+    padding-right: 5px;
+}
+.item-amazon > p {
+    padding-right: ;
+}
 img {
     width: 40%;
     background-color: black;
     border-radius: 10px;
 }
-
 p {
     font-size: 20px;
     color: white;
