@@ -85,7 +85,7 @@ async function insertDB(takeInfo, client, table) {
         const texte = "Description du produit";
         try {
             const res = await client.query(insertQuery, [product.productTitle, product.imageLink, product.priceOrNot, product.description]);
-            console.log('Nouvelle ligne insérée avec succès. ID généré:', res.rows[0].Id);
+            console.log('Nouvelle ligne insérée avec succès.');
         } catch (err) {
             console.error('Erreur lors de l\'insertion d\'une nouvelle ligne:', err.message);
         }
