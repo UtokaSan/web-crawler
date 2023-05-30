@@ -7,33 +7,25 @@ async function CommentsFunction(app,urlsInput,messagesInput) {
     const screenshots = [];
     const browser = await puppeteer.launch({ headless: false });
     const page = await browser.newPage();
-
     console.log(urlsInput);
     console.log(messagesInput);
-    // Se rendre sur la page de connexion Instagram
     await page.goto('https://www.instagram.com/accounts/login', { waitUntil: "networkidle2" });
     await page.waitForSelector('input[name=username]');
     await page.type('input[name=username]', 'fodaw77731', { delay: getRandomDelay() });
     await page.type('input[name=password]', 'PasswordAdmin856726', { delay: getRandomDelay() });
     await page.click('button[type=submit]', { delay: getRandomDelay() });
-
     await page.waitForTimeout(8000);
-    
-    // Séparer les   URL et les messages en utilisant la virgule comme délimiteur
     const urls = urlsInput.split(',');
     const messages = messagesInput.split(',');
 
-    // Vérifier si le nombre d'URL et de messages est le même
     if (urls.length !== messages.length) {
         console.log('Le nombre d\'URL et de messages ne correspond pas.');
         return;
     }
 
-    // Traiter les URL et les messages correspondants
     for (var i = 0; i < urls.length; i++) {
         const url = urls[i].trim();
         const message = messages[i].trim();
-        // Faire ce que vous souhaitez avec chaque paire URL-message
         console.log('URL:', url);
         console.log('Message:', message);
         await CommentOnPost(page,url,message,screenshots)
@@ -44,7 +36,6 @@ async function CommentsFunction(app,urlsInput,messagesInput) {
 
 
 async function CommentOnPost (page,url,message,screenshots){
-    // Attendre que la page de destination soit complètement chargée
 await page.goto(url, { waitUntil: "networkidle2" });
 console.log("Passage de l'url")
 const textarea = await page.waitForSelector('textarea.x1i0vuye.xvbhtw8.x76ihet.xwmqs3e.x112ta8.xxxdfa6.x5n08af.x78zum5.x1iyjqo2.x1qlqyl8.x1d6elog.xlk1fp6.x1a2a7pz.xexx8yu.x4uap5.x18d9i69.xkhd6sd.xtt52l0.xnalus7.x1bq4at4.xaqnwrm.xs3hnx8');
@@ -57,16 +48,12 @@ await captureScreenshots(page,screenshots);
 
 async function captureScreenshots(page, screenshots) {
     const folderPath = path.join(__dirname, '../back/public/screenshots');
-  
-    // Créer le dossier screenshots si nécessaire
+
     if (!fs.existsSync(folderPath)) {
       fs.mkdirSync(folderPath, { recursive: true });
     }
-    
     const screenshotData = await page.screenshot();
     const screenshotPath = path.join(__dirname, '../back/public/screenshots', `screenshot_${Date.now()}.png`);
-  
-  
     fs.writeFileSync(screenshotPath, screenshotData);
     screenshots.push(screenshotPath);
 }
@@ -90,15 +77,12 @@ async function BugInsta(page,url,post) {
         console.log("Pas de popup");
     }
     NewProfilToSearch(page,url);
-    // Attendre que le bouton de connexion soit présent dans la page et soit cliquable
     await page.waitForSelector('a.x1i10hfl button._acan');
-    // Cliquer sur le bouton de connexion
     await page.click('a.x1i10hfl button._acan');
     await page.waitForSelector('input[name=username]');
     await page.type('input[name=username]', 'fodaw77731', { delay: getRandomDelay() });
     await page.type('input[name=password]', 'PasswordAdmin856726', { delay: getRandomDelay() });
     await page.click('button[type=submit]', { delay: getRandomDelay() });
-
     await page.waitForTimeout(8000);
     await page.goto(post, { waitUntil: "networkidle2" });
 
@@ -107,13 +91,13 @@ async function BugInsta(page,url,post) {
 }
 }
 
-// Fonction pour obtenir un délai aléatoire
+
 function getRandomDelay() {
-    return Math.floor(Math.random() * 500) + 500; // Délai entre 500 et 1000 ms
+    return Math.floor(Math.random() * 500) + 500;
 }
 
 function getRandomDelayComment() {
-    return Math.floor(Math.random() * 4000) + 1000; // Délai entre 3000 et 7000 ms (3 et 7 secondes)
+    return Math.floor(Math.random() * 4000) + 1000;
 }
 
 module.exports = {

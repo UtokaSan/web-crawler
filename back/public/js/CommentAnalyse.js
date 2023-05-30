@@ -4,7 +4,6 @@ fetch("http://localhost:3000/api/analyse")
         const div = document.querySelector("#test");
         const moyenneDiv = document.querySelector("#moyenne");
 
-        // Créer une chaîne HTML avec tous les commentaires et scores
         let html = "";
 
         let sum = 0;

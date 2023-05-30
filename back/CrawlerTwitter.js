@@ -7,7 +7,6 @@ const url = "";
     const browser = await puppeteer.launch({ headless: false });
     const page = await browser.newPage();
 async function TwitterConnexion(page){
-        // Se rendre sur la page de connexion Instagram
         await page.goto('https://twitter.com/', { waitUntil: "networkidle2" });
         await page.waitForSelector('a[href="/login"][role="link"].css-4rbku5');   
         await page.click('a[href="/login"][role="link"].css-4rbku5');
@@ -18,7 +17,7 @@ async function TwitterConnexion(page){
         const buttons = await page.$$('div[role="button"]');
 
     if (buttons.length >= 3) {
-      await buttons[2].click(); // Cliquer sur le 3ème bouton (l'index est 2 car les index commencent à 0)
+      await buttons[2].click();
     } else {
       console.log("Le 3ème bouton n'a pas été trouvé.");
     }
@@ -29,7 +28,6 @@ async function TwitterConnexion(page){
           button.click();
         });
     } catch (error) {
-        // Gérer l'erreur ici
         console.error("Erreur : l'élément n'a pas été trouvé ou une autre erreur s'est produite.", error);
     }
         await page.waitForSelector('input[name=password]');
@@ -49,44 +47,38 @@ async function TwitterConnexion(page){
 
 
 async function PublishTweet(page){
-    await page.waitForSelector('.css-1dbjc4n.r-13qz1uu.r-1g40b8q'); // Attendre que le div soit chargé
-    const divToClick = await page.$('.css-1dbjc4n.r-13qz1uu.r-1g40b8q'); // Sélectionner le div à cliquer
-    await divToClick.click(); // Cliquer sur le div
-    await page.waitForSelector('div[data-testid="tweetTextarea_0"]'); // Attendre que l'élément d'écriture soit chargé
+    await page.waitForSelector('.css-1dbjc4n.r-13qz1uu.r-1g40b8q');
+    const divToClick = await page.$('.css-1dbjc4n.r-13qz1uu.r-1g40b8q');
+    await divToClick.click();
+    await page.waitForSelector('div[data-testid="tweetTextarea_0"]');
 
-    const tweetInput = await page.$('div[data-testid="tweetTextarea_0"]'); // Sélectionner l'élément d'écriture
-    await tweetInput.type('Hello, Twitter!',{ delay: getRandomDelay()}); // Écrire du texte dans l'élément
-    await page.waitForSelector('div[data-testid="tweetButtonInline"]'); // Attendre que le bouton soit chargé
+    const tweetInput = await page.$('div[data-testid="tweetTextarea_0"]');
+    await tweetInput.type('Hello, Twitter!',{ delay: getRandomDelay()});
+    await page.waitForSelector('div[data-testid="tweetButtonInline"]');
 
-    const tweetButton = await page.$('div[data-testid="tweetButtonInline"]'); // Sélectionner le bouton
-    await tweetButton.click(); // Cliquer sur le bouton
+    const tweetButton = await page.$('div[data-testid="tweetButtonInline"]');
+    await tweetButton.click();
   
 }
 
 const follow = "leagueoflegends"
 async function FollowUsers(page,follow){
-    // Attendre que la page de destination soit complètement chargée
     await page.goto("https://twitter.com/" + follow, { waitUntil: "networkidle2" });
-
-    
     try {
     const followButton = await page.$('div[data-testid="577401044-follow"] span');
     const followText = await page.evaluate(button => button.textContent, followButton);
     console.log(followText);
-    await page.waitForSelector('div[data-testid="577401044-follow"]'); // Attendre que le bouton soit chargé
-    const followButtonClick = await page.$('div[data-testid="577401044-follow"]'); // Sélectionner le bouton
-    await followButtonClick.click(); // Cliquer sur le bouton
+    await page.waitForSelector('div[data-testid="577401044-follow"]');
+    const followButtonClick = await page.$('div[data-testid="577401044-follow"]');
+    await followButtonClick.click();
     } catch (error) {
         console.log("Deja follow a cet utilisateur")
     }
 } 
 
 async function UnfollowUsers(page,follow){
-    // Attendre que la page de destination soit complètement chargée
     await page.goto("https://twitter.com/" + follow, { waitUntil: "networkidle2" });
-
-    await page.waitForSelector('div[dir="ltr"] span.css-901oao.css-16my406.r-poiln3.r-bcqeeo.r-qvutc0'); // Attendre que l'élément soit chargé
-
+    await page.waitForSelector('div[dir="ltr"] span.css-901oao.css-16my406.r-poiln3.r-bcqeeo.r-qvutc0');
     try{
     const followButton = await page.$('div[data-testid="577401044-unfollow"] span');
     const followText = await page.evaluate(button => button.textContent, followButton);
@@ -105,15 +97,13 @@ async function UnfollowUsers(page,follow){
 
     await TwitterConnexion(page);
     await UnfollowUsers(page,follow);
-    // Fermer le navigateur
     //await browser.close();
 })();
 
-// Fonction pour obtenir un délai aléatoire
 function getRandomDelay() {
-    return Math.floor(Math.random() * 500) + 500; // Délai entre 500 et 1000 ms
+    return Math.floor(Math.random() * 500) + 500;
 }
 
 function getRandomDelayComment() {
-    return Math.floor(Math.random() * 4000) + 1000; // Délai entre 3000 et 7000 ms (3 et 7 secondes)
+    return Math.floor(Math.random() * 4000) + 1000;
 }

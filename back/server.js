@@ -26,12 +26,6 @@ app.use(express.static("public"));
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.post('/crawler/sale', async (req, res) => {
-    const inputSearch = req.body.inputSearch;
-    await crawlerSale.indexCrawling(inputSearch, client);
-    res.redirect("/SitesVente.html");
-});
-
 app.get('/api/produitsaliexpress', (req, res) => {
     transformQueryJson('produitsaliexpress', res);
 })
@@ -49,6 +43,7 @@ app.get('/api/profil', (req, res) => {
 app.get('/api/profildetail', (req, res) => {
     transformQueryJson('profildetail',res);
 })
+
 function transformQueryJson (name, res) {
     const sql = `SELECT * FROM ${name}`;
 
@@ -76,8 +71,6 @@ const createQueryTableAmazon = `
         Texte VARCHAR(1000)
     )
 `;
-
-// Exécute la requête SQL de création de table
 client.query(createQueryTableAmazon, (err, res) => {
     if (err) {
         console.error('Erreur lors de la création de la table ProduitsAmazon:', err.message);
@@ -102,6 +95,7 @@ client.query(createQueryTableAliexpress, (err, res) => {
         console.log('Table ProduitsAliexpress créée avec succès.');
     }
 });
+
 const createQueryTableComments = `
 CREATE TABLE Comments(
     Id SERIAL PRIMARY KEY,
@@ -109,7 +103,6 @@ CREATE TABLE Comments(
     Score INT
  )
 `;
-
 client.query(createQueryTableComments, (err, res) => {
     if (err) {
         console.error('Erreur lors de la création de la table CommentsTable:', err.message);
@@ -126,7 +119,6 @@ CREATE TABLE emoticones(
     Score INT
  )
 `;
-
 client.query(createQueryTableSmiley, (err, res) => {
     if (err) {
         console.error('Erreur lors de la création de la table TableSmiley:', err.message);
@@ -147,7 +139,6 @@ const createQueryProfil = `
         Contact VARCHAR(500)
  )
 `;
-
 client.query(createQueryProfil, (err, res) => {
     if (err) {
         console.error('Erreur lors de la création de la table Profil:', err.message);
@@ -163,7 +154,6 @@ const createQueryProfildetail = `
         text VARCHAR(500)
  )
 `;
-
 client.query(createQueryProfildetail, (err, res) => {
     if (err) {
         console.error('Erreur lors de la création de la table Profildetail:', err.message);
@@ -172,6 +162,14 @@ client.query(createQueryProfildetail, (err, res) => {
     }
 });
 
+//Crawler Market
+app.post('/crawler/sale', async (req, res) => {
+    const inputSearch = req.body.inputSearch;
+    await crawlerSale.indexCrawling(inputSearch, client);
+    res.redirect("/SitesVente.html");
+});
+
+//Crawler Insta
 app.post('/crawler/FollowInsta', async (req, res) => {
     const usernameInput = req.body.usernameInput;
     const optionRadioFollowUnfollow = req.body.option;
@@ -218,16 +216,16 @@ async function EmoticoneAdd(){
     await client.query(deleteQuery);
 
     const emoticons = [
-        { smiley: '❤️', score: 2 }, // Très positif
-        { smiley: '🌊', score: 1 }, // Très positif
-        { smiley: '💙', score: 2 }, // Très positif
-        { smiley: '🤷', score: 0 }, // Très positif
-        { smiley: '🔥', score: 2 }, // Très positif
-        { smiley: '✨', score: 1 }, // Très positif
-        { smiley: '😃', score: 2 }, // Très positif
-        { smiley: '🥰', score: 2 }, // Très positif
-        { smiley: '😊', score: 1 }, // Positif
-        { smiley: '🙂', score: 0 }, // Neutre
+        { smiley: '❤️', score: 2 },
+        { smiley: '🌊', score: 1 },
+        { smiley: '💙', score: 2 },
+        { smiley: '🤷', score: 0 },
+        { smiley: '🔥', score: 2 },
+        { smiley: '✨', score: 1 },
+        { smiley: '😃', score: 2 },
+        { smiley: '🥰', score: 2 },
+        { smiley: '😊', score: 1 }, 
+        { smiley: '🙂', score: 0 }, 
         { smiley:'😊', score: 1 },
         { smiley:'😍', score: 2 },
         { smiley:'😎', score: 1 },
@@ -443,5 +441,5 @@ async function insertDB(emoticones) {
 
 EmoticoneAdd();
 
-// Exporte le client PostgreSQL
+// Export client PostgreSQL
 module.exports = client;

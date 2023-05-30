@@ -10,19 +10,14 @@ async function DisplayFunction(profil,client) {
     await client.query(deleteQuery);
     const delete2Query = `DELETE  FROM profildetail`;
     client.query(delete2Query);
-
     const browser = await puppeteer.launch({ headless: false });
     const page = await browser.newPage();
-
-    // Se rendre sur la page de connexion Instagram
     await page.goto('https://www.instagram.com/accounts/login', { waitUntil: "networkidle2" });
     await page.waitForSelector('input[name=username]');
     await page.type('input[name=username]', 'fodaw77731', { delay: getRandomDelay() });
     await page.type('input[name=password]', 'PasswordAdmin856726', { delay: getRandomDelay() });
     await page.click('button[type=submit]', { delay: getRandomDelay() });
-
     await page.waitForTimeout(8000);
-
     await NewProfilToSearch(page,profil);
     await page.waitForTimeout(5000)
     await DisplayProfil(client,page);
@@ -68,38 +63,27 @@ async function DisplayProfil (client,page){
     console.log(contactElement);
     insertDB(client,imageSrc,h2Text,liText,followersTitle,followingText,nameElement,contactElement);
     //Image-Texte
-    // Boucle pour cliquer sur le bouton "Suivant" et récupérer les nouveaux éléments <li>
     while (true) {
-        
         try {
         const buttonNext = await page.waitForSelector('button._a9_u._afxw._al46._al47');
-        // Cliquer sur le bouton "Suivant"
         await buttonNext.click();
         } catch (error){
             break;
         }
-        // Attendre que les nouveaux éléments <li> soient chargés
-        await page.waitForTimeout(2000); // Attendre pendant 2 secondes (ajustez si nécessaire)
-        // Sélectionner tous les éléments <li> qui n'ont pas encore été traités
+        await page.waitForTimeout(2000);
         const liElements = await page.$$('ul._acay li._acaz:not(._processed)');
-        // Parcourir tous les nouveaux éléments <li>
         for (const liElement of liElements) {
-          // Récupérer l'URL de l'image à l'aide de page.evaluate
           var imageSrcTexte = await page.evaluate((element) => element.querySelector('img').getAttribute('src'), liElement);
-          // Récupérer le texte à partir de l'élément <span> à l'aide de page.evaluate
           const text = await page.evaluate((element) => element.querySelector('span.x1lliihq').textContent.trim(), liElement);
-          // Afficher les informations dans la console (ou effectuer toute autre opération souhaitée)
           imageSrcTexte = await downloadImage(imageSrcTexte);
           insertDB2(client, imageSrcTexte,text);
           console.log(imageSrcTexte);
           console.log(text);
-          // Marquer l'élément <li> comme traité en ajoutant une classe CSS
           await liElement.evaluate((element) => element.classList.add('_processed'));
         }
       }
       await page.waitForTimeout(5000)
-    }
-
+}
 
 async function insertDB(client, imageSrc,h2Text,liText,followersTitle,followingText,nameElement,contactElement) {
     let insertQuery;
@@ -134,7 +118,6 @@ async function insertDB2(client, imageSrcTexte,text) {
       const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
       const imageFileName = generateUniqueFileName();
       const folderPath = path.join(__dirname, '../back/public/screenshots');
-      // Créer le dossier screenshots si nécessaire
       if (!fs.existsSync(folderPath)) {
         fs.mkdirSync(folderPath, { recursive: true });
       }
@@ -152,13 +135,12 @@ async function insertDB2(client, imageSrcTexte,text) {
     return `image_${timestamp}.jpg`;
   };
 
-// Fonction pour obtenir un délai aléatoire
 function getRandomDelay() {
-    return Math.floor(Math.random() * 500) + 500; // Délai entre 500 et 1000 ms
+    return Math.floor(Math.random() * 500) + 500;
 }
 
 function getRandomDelayComment() {
-    return Math.floor(Math.random() * 4000) + 1000; // Délai entre 3000 et 7000 ms (3 et 7 secondes)
+    return Math.floor(Math.random() * 4000) + 1000;
 }
 
 module.exports = {

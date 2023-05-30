@@ -9,9 +9,8 @@ async function FollowFunction(app,usernameInput,optionRadioFollowUnfollow) {
     const browser = await puppeteer.launch({ headless: false });
     const page = await browser.newPage();
 
-    // Se rendre sur la page de connexion Instagram
     await page.goto('https://www.instagram.com/accounts/login', { waitUntil: "networkidle2" });
-    await page.waitForSelector('input[name=username]'); // mailinstadefoufurieux@yopmail.com
+    await page.waitForSelector('input[name=username]');
     await page.type('input[name=username]', 'fodaw77731', { delay: getRandomDelay() });
     await page.type('input[name=password]', 'PasswordAdmin856726', { delay : getRandomDelay() });
     await page.click('button[type=submit]', { delay: getRandomDelay() });
@@ -23,14 +22,11 @@ async function FollowFunction(app,usernameInput,optionRadioFollowUnfollow) {
 for (let i = 0; i < usernames.length; i++) {
     const username = usernames[i].trim();
     await NewProfilToSearch(page,username);
-    // Utilisez la valeur de `option` selon vos besoins
     if (optionRadioFollowUnfollow === 'follow') {
-    // Suivre les utilisateurs
     await FollowUser(page);
     await page.waitForTimeout(5000);
     await captureScreenshots(page,screenshots);
     } else if (optionRadioFollowUnfollow === 'unfollow') {
-    // Désabonner des utilisateurs
     await UnfollowUser(page);
     await page.waitForTimeout(5000);
     await captureScreenshots(page,screenshots);
@@ -45,7 +41,6 @@ async function NewProfilToSearch(page,profil) {
     await page.goto('https://www.instagram.com/' + profil, { waitUntil: "networkidle2" });
 }
 
-//Follow un utilisateur des qu'on est sur le profil
 async function FollowUser(page) {
     try {
         const button = await page.waitForSelector('button._acan._acap._acas._aj1-');
@@ -62,7 +57,6 @@ async function FollowUser(page) {
     }
 }
 
-//UnFollow un utilisateur des qu'on est sur le profil
 async function UnfollowUser(page) {
     try{
     const button = await page.waitForSelector('div.x9f619.xjbqb8w.x78zum5.x168nmei.x13lgxp2.x5pf9jr.xo71vjh.x1i64zmx.x1n2onr6.x1plvlek.xryxfnj.x1iyjqo2.x2lwn1j.xeuugli.xdt5ytf.xqjyukv.x1qjc9v5.x1oa3qoh.x1nhvcw1 button._acan._acap._acat._aj1-');
@@ -98,15 +92,11 @@ await page.waitForTimeout(5000);
 async function captureScreenshots(page, screenshots) {
     const folderPath = path.join(__dirname, '../back/public/screenshots');
   
-    // Créer le dossier screenshots si nécessaire
     if (!fs.existsSync(folderPath)) {
       fs.mkdirSync(folderPath, { recursive: true });
     }
-    
     const screenshotData = await page.screenshot();
     const screenshotPath = path.join(__dirname, '../back/public/screenshots', `screenshot_${Date.now()}.png`);
-  
-  
     fs.writeFileSync(screenshotPath, screenshotData);
     screenshots.push(screenshotPath);
 }
@@ -130,15 +120,12 @@ async function BugInsta(page,url,post) {
         console.log("Pas de popup");
     }
     NewProfilToSearch(page,url);
-    // Attendre que le bouton de connexion soit présent dans la page et soit cliquable
     await page.waitForSelector('a.x1i10hfl button._acan');
-    // Cliquer sur le bouton de connexion
     await page.click('a.x1i10hfl button._acan');
     await page.waitForSelector('input[name=username]');
     await page.type('input[name=username]', 'fodaw77731', { delay: getRandomDelay() });
     await page.type('input[name=password]', 'PasswordAdmin856726', { delay: getRandomDelay() });
     await page.click('button[type=submit]', { delay: getRandomDelay() });
-
     await page.waitForTimeout(8000);
     await page.goto(post, { waitUntil: "networkidle2" });
 
@@ -147,13 +134,12 @@ async function BugInsta(page,url,post) {
 }
 }
 
-// Fonction pour obtenir un délai aléatoire
 function getRandomDelay() {
-    return Math.floor(Math.random() * 500) + 500; // Délai entre 500 et 1000 ms
+    return Math.floor(Math.random() * 500) + 500;
 }
 
 function getRandomDelayComment() {
-    return Math.floor(Math.random() * 4000) + 1000; // Délai entre 3000 et 7000 ms (3 et 7 secondes)
+    return Math.floor(Math.random() * 4000) + 1000;
 }
 
 module.exports = {
