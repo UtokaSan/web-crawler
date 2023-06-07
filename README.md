@@ -3,7 +3,7 @@
 Le projet était un projet à réalisé en groupe de 3, son but était de faire un crawler qui 
 récupère des informations sur différent sites web, nous avons choisis de faire un crawler qui 
 récupère des informations sur 2 sites de ventes (Aliexpress, Amazon) afin de faire une 
-comparaison de pris ainsi qu'un crawler qui récupère des infos
+comparaison de prix ainsi qu'un crawler qui récupère des infos
 sur instagram qui possède plusieurs fonctionnalités
 
 ## Sommaire
